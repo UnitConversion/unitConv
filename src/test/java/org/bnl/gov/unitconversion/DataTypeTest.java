@@ -267,7 +267,6 @@ public class DataTypeTest {
 	 * A Single ConversionData object
 	 */
 	ConversionData conversionData = conversionDataOfType("Standard")
-		.forDevice(device)
 		.withMagnetMeasurementData(magnetMeasurementData)
 		.withDefaultBeamEnergy(3.0).withMagneticLengthDesign(0.35)
 		.withConversionFunctions(conversionFunctions).build();
@@ -341,7 +340,6 @@ public class DataTypeTest {
 	MultivaluedMap<String, ConversionData> map = new MultivaluedHashMap<String, ConversionData>();
 	map.add("municonvChain",
 		conversionDataOfType("Standard")
-			.forDevice(device("LN-SO5").build())
 			.withConversionFunctions(conversionFunctions1).build());
 
 	List<Double> LNSO5current = Arrays.asList(0.0, 5.0, 10.0, 15.0, 20.0,
@@ -367,7 +365,6 @@ public class DataTypeTest {
 	 */
 	map.add("municonv",
 		conversionDataOfType("Standard")
-			.forDevice(device("LN-SO5").build())
 			.withMagnetMeasurementData(magnetMeasurementData2)
 			.withDefaultBeamEnergy(3.0)
 			.withMagneticLengthDesign(0.35)
@@ -432,7 +429,6 @@ public class DataTypeTest {
 	complexMap
 		.add("municonv",
 			conversionDataOfType("Complex:1")
-				.forDevice(device("A1BD1").build())
 				.withMagnetMeasurementData(
 					magnetMeasurements().FieldUnit("T")
 						.CurrentUnit("A").build())
@@ -450,7 +446,6 @@ public class DataTypeTest {
 	complexMap
 		.add("municonv",
 			conversionDataOfType("Complex:2")
-				.forDevice(device("A1BD1").build())
 				.withMagnetMeasurementData(
 					magnetMeasurements().FieldUnit("T/m")
 						.CurrentUnit("A").build())
@@ -468,7 +463,6 @@ public class DataTypeTest {
 	complexMap
 		.add("municonv",
 			conversionDataOfType("Complex:3")
-				.forDevice(device("A1BD1").build())
 				.withMagnetMeasurementData(
 					magnetMeasurements().FieldUnit("T/m^2")
 						.CurrentUnit("A").build())
@@ -486,7 +480,6 @@ public class DataTypeTest {
 	complexMap.add(
 		"municonv",
 		conversionDataOfType("standard")
-			.forDevice(device("A1BD1").build())
 			.withMagnetMeasurementData(
 				magnetMeasurements().FieldUnit("T")
 					.CurrentUnit("A").SerialNumber(24)

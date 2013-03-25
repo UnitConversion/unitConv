@@ -18,8 +18,6 @@ public class ConversionData {
     public static class ConversionDataBuilder {
 	private String type = "standard";
 
-	private Device device;
-
 	private MagnetMeasurementData magnetMeasurementData;
 
 	// These are design values
@@ -39,11 +37,6 @@ public class ConversionData {
 
 	public static ConversionDataBuilder conversionDataOfType(String type) {
 	    return new ConversionDataBuilder(type);
-	}
-
-	public ConversionDataBuilder forDevice(Device device) {
-	    this.device = device;
-	    return this;
 	}
 
 	public ConversionDataBuilder withMagnetMeasurementData(
@@ -81,7 +74,7 @@ public class ConversionData {
 	}
 
 	public ConversionData build() {
-	    return new ConversionData(type, device, magnetMeasurementData,
+	    return new ConversionData(type, magnetMeasurementData,
 		    magneticLengthDesign, defaultBeamEnergy, liveBeamEnergy,
 		    conversionFunctions, description);
 	}
@@ -89,8 +82,6 @@ public class ConversionData {
     }
 
     private String type;
-
-    private Device device;
 
     private MagnetMeasurementData magnetMeasurementData;
 
@@ -104,10 +95,10 @@ public class ConversionData {
 
     private String description;
 
-    
-    private ConversionData(){
-	
+    private ConversionData() {
+
     }
+
     /**
      * @param type
      * @param device
@@ -118,14 +109,13 @@ public class ConversionData {
      * @param conversionFunctions
      * @param description
      */
-    private ConversionData(String type, Device device,
+    private ConversionData(String type,
 	    MagnetMeasurementData magnetMeasurementData,
 	    Double magneticLengthDesign, Double defaultBeamEnergy,
 	    Double liveBeamEnergy,
 	    Map<String, ConversionAlgorithm> conversionFunctions,
 	    String description) {
 	this.type = type;
-	this.device = device;
 	this.magnetMeasurementData = magnetMeasurementData;
 	this.magneticLengthDesign = magneticLengthDesign;
 	this.defaultBeamEnergy = defaultBeamEnergy;
@@ -138,58 +128,54 @@ public class ConversionData {
      * @return the type
      */
     public String getType() {
-        return type;
-    }
-
-    /**
-     * @return the device
-     */
-    public Device getDevice() {
-        return device;
+	return type;
     }
 
     /**
      * @return the magnetMeasurementData
      */
     public MagnetMeasurementData getMagnetMeasurementData() {
-        return magnetMeasurementData;
+	return magnetMeasurementData;
     }
 
     /**
      * @return the magneticLengthDesign
      */
     public Double getMagneticLengthDesign() {
-        return magneticLengthDesign;
+	return magneticLengthDesign;
     }
 
     /**
      * @return the defaultBeamEnergy
      */
     public Double getDefaultBeamEnergy() {
-        return defaultBeamEnergy;
+	return defaultBeamEnergy;
     }
 
     /**
      * @return the liveBeamEnergy
      */
     public Double getLiveBeamEnergy() {
-        return liveBeamEnergy;
+	return liveBeamEnergy;
     }
 
     /**
      * @return the conversionFunctions
      */
     public Map<String, ConversionAlgorithm> getConversionFunctions() {
-        return Collections.unmodifiableMap(conversionFunctions);
+	return Collections.unmodifiableMap(conversionFunctions);
     }
 
     /**
      * @return the description
      */
     public String getDescription() {
-        return description;
+	return description;
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -206,7 +192,7 @@ public class ConversionData {
 			.hashCode());
 	result = prime * result
 		+ ((description == null) ? 0 : description.hashCode());
-	result = prime * result + ((device == null) ? 0 : device.hashCode());
+
 	result = prime * result
 		+ ((liveBeamEnergy == null) ? 0 : liveBeamEnergy.hashCode());
 	result = prime
@@ -220,7 +206,10 @@ public class ConversionData {
 	result = prime * result + ((type == null) ? 0 : type.hashCode());
 	return result;
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -247,11 +236,6 @@ public class ConversionData {
 		return false;
 	} else if (!description.equals(other.description))
 	    return false;
-	if (device == null) {
-	    if (other.device != null)
-		return false;
-	} else if (!device.equals(other.device))
-	    return false;
 	if (liveBeamEnergy == null) {
 	    if (other.liveBeamEnergy != null)
 		return false;
@@ -274,7 +258,5 @@ public class ConversionData {
 	    return false;
 	return true;
     }
-       
-    
 
 }

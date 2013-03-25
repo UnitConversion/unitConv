@@ -3,6 +3,7 @@
  */
 package org.bnl.gov.unitconversion;
 
+import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -12,71 +13,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * 
  */
 @XmlRootElement
-public class Device {
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime
-		* result
-		+ ((componentTypeName == null) ? 0 : componentTypeName
-			.hashCode());
-	result = prime * result + installId;
-	result = prime * result + ((name == null) ? 0 : name.hashCode());
-	result = prime * result + serialNumber;
-	result = prime * result + ((system == null) ? 0 : system.hashCode());
-	result = prime * result
-		+ ((typeDescription == null) ? 0 : typeDescription.hashCode());
-	result = prime * result + ((vendor == null) ? 0 : vendor.hashCode());
-	return result;
-    }
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
-	Device other = (Device) obj;
-	if (componentTypeName == null) {
-	    if (other.componentTypeName != null)
-		return false;
-	} else if (!componentTypeName.equals(other.componentTypeName))
-	    return false;
-	if (installId != other.installId)
-	    return false;
-	if (name == null) {
-	    if (other.name != null)
-		return false;
-	} else if (!name.equals(other.name))
-	    return false;
-	if (serialNumber != other.serialNumber)
-	    return false;
-	if (system == null) {
-	    if (other.system != null)
-		return false;
-	} else if (!system.equals(other.system))
-	    return false;
-	if (typeDescription == null) {
-	    if (other.typeDescription != null)
-		return false;
-	} else if (!typeDescription.equals(other.typeDescription))
-	    return false;
-	if (vendor == null) {
-	    if (other.vendor != null)
-		return false;
-	} else if (!vendor.equals(other.vendor))
-	    return false;
-	return true;
-    }
+public class Device {    
 
     public static class DeviceBuilder {
 
@@ -87,6 +24,7 @@ public class Device {
 	private String typeDescription;
 	private String vendor;
 	private int serialNumber;
+	private MultivaluedMap<String, ConversionData> conversionInfo;
 
 	/**
 	 * 
@@ -137,10 +75,15 @@ public class Device {
 	    this.serialNumber = serialNumber;
 	    return this;
 	}
+	
+	public DeviceBuilder conversionInfo(MultivaluedMap<String, ConversionData> conversionInfo){
+	    this.conversionInfo = conversionInfo;
+	    return this;
+	}
 
 	public Device build() {
 	    return new Device(name, system, installId, componentTypeName,
-		    typeDescription, vendor, serialNumber);
+		    typeDescription, vendor, serialNumber, conversionInfo);
 	}
 
     }
@@ -156,6 +99,8 @@ public class Device {
     @JsonProperty("type_description")
     private String typeDescription;
     private String vendor;
+    
+    private MultivaluedMap<String, ConversionData> conversionInfo;
 
     private Device(){
     }
@@ -168,7 +113,7 @@ public class Device {
      * @param vendor
      */
     private Device(String name, String system, int installId,
-	    String componentTypeName, String typeDescription, String vendor, int serialNumber) {
+	    String componentTypeName, String typeDescription, String vendor, int serialNumber, MultivaluedMap<String, ConversionData> conversionInfo) {
 	this.name = name;
 	this.system = system;
 	this.installId = installId;
@@ -176,6 +121,7 @@ public class Device {
 	this.typeDescription = typeDescription;
 	this.vendor = vendor;
 	this.serialNumber = serialNumber;
+	this.conversionInfo = conversionInfo;
     }
 
     /**
@@ -225,6 +171,76 @@ public class Device {
      */
     public String getVendor() {
         return vendor;
+    }
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime
+		* result
+		+ ((componentTypeName == null) ? 0 : componentTypeName
+			.hashCode());
+	result = prime * result
+		+ ((conversionInfo == null) ? 0 : conversionInfo.hashCode());
+	result = prime * result + installId;
+	result = prime * result + ((name == null) ? 0 : name.hashCode());
+	result = prime * result + serialNumber;
+	result = prime * result + ((system == null) ? 0 : system.hashCode());
+	result = prime * result
+		+ ((typeDescription == null) ? 0 : typeDescription.hashCode());
+	result = prime * result + ((vendor == null) ? 0 : vendor.hashCode());
+	return result;
+    }
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	Device other = (Device) obj;
+	if (componentTypeName == null) {
+	    if (other.componentTypeName != null)
+		return false;
+	} else if (!componentTypeName.equals(other.componentTypeName))
+	    return false;
+	if (conversionInfo == null) {
+	    if (other.conversionInfo != null)
+		return false;
+	} else if (!conversionInfo.equals(other.conversionInfo))
+	    return false;
+	if (installId != other.installId)
+	    return false;
+	if (name == null) {
+	    if (other.name != null)
+		return false;
+	} else if (!name.equals(other.name))
+	    return false;
+	if (serialNumber != other.serialNumber)
+	    return false;
+	if (system == null) {
+	    if (other.system != null)
+		return false;
+	} else if (!system.equals(other.system))
+	    return false;
+	if (typeDescription == null) {
+	    if (other.typeDescription != null)
+		return false;
+	} else if (!typeDescription.equals(other.typeDescription))
+	    return false;
+	if (vendor == null) {
+	    if (other.vendor != null)
+		return false;
+	} else if (!vendor.equals(other.vendor))
+	    return false;
+	return true;
     }
     
     
