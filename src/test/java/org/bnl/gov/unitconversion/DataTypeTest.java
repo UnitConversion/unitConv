@@ -334,14 +334,16 @@ public class DataTypeTest {
 	 * 
 	 * "i2b": [0, "0.000228046038239*input + 0.000113748"] } } } }
 	 */
-	Map<String, ConversionAlgorithm> conversionFunctions1 = new HashMap<>();
+	final Map<String, ConversionAlgorithm> conversionFunctions1 = new HashMap<>();
 	conversionFunctions1.put("i2b", new ConversionAlgorithm(0,
 		"-0.000423222575196*input -0.00021717376728"));
-	MultivaluedMap<String, ConversionData> map = new MultivaluedHashMap<String, ConversionData>();
-	map.add("municonvChain",
-		conversionDataOfType("Standard")
+	MultivaluedMap<String, Map<String, ConversionData>> map = new MultivaluedHashMap<String, Map<String, ConversionData>>();
+	map.add("municonvChain", new HashMap<String, ConversionData>() {
+	    {
+		put("standard", conversionDataOfType("Standard")
 			.withConversionFunctions(conversionFunctions1).build());
-
+	    }
+	});
 	List<Double> LNSO5current = Arrays.asList(0.0, 5.0, 10.0, 15.0, 20.0,
 		25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0,
 		75.0, 80.0, 85.0, 90.0, 95.0, 100.0);
@@ -353,31 +355,39 @@ public class DataTypeTest {
 		-0.009285, -0.010423, -0.011546, -0.012694, -0.013817,
 		-0.014941, -0.016098, -0.017217, -0.018358, -0.019476,
 		-0.020613, -0.021764, -0.022898);
-	MagnetMeasurementData magnetMeasurementData2 = magnetMeasurements()
+	final MagnetMeasurementData magnetMeasurementData2 = magnetMeasurements()
 		.Current(LNSO5current).CurrentUnit("A").Field(LNSO5field)
 		.FieldUnit("T").Direction(LNSO5direction).build();
-	Map<String, ConversionAlgorithm> conversionFunctions2 = new HashMap<String, ConversionAlgorithm>();
+	final Map<String, ConversionAlgorithm> conversionFunctions2 = new HashMap<String, ConversionAlgorithm>();
 	conversionFunctions2.put("i2b", new ConversionAlgorithm(0,
 		"0.000228046038239*input + 0.000113748"));
 
 	/**
 	 * Data in the form that it is returned from the service
 	 */
-	map.add("municonv",
-		conversionDataOfType("Standard")
-			.withMagnetMeasurementData(magnetMeasurementData2)
-			.withDefaultBeamEnergy(3.0)
-			.withMagneticLengthDesign(0.35)
-			.withConversionFunctions(conversionFunctions2).build());
+	map.add("municonv", new HashMap<String, ConversionData>() {
+	    {
+		put("standard",
+			conversionDataOfType("Standard")
+				.withMagnetMeasurementData(
+					magnetMeasurementData2)
+				.withDefaultBeamEnergy(3.0)
+				.withMagneticLengthDesign(0.35)
+				.withConversionFunctions(conversionFunctions2)
+				.build());
+	    }
+	});
 
 	try {
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    File jsonMap = tempFolder.newFile("jsonMap");
 	    objectMapper.writeValue(jsonMap, map);
 	    System.out.println(objectMapper.writeValueAsString(map));
-	    Map<String, ConversionData> parsedMap = objectMapper.readValue(
-		    jsonMap, new TypeReference<Map<String, ConversionData>>() {
-		    });
+	    MultivaluedMap<String, Map<String, ConversionData>> parsedMap = objectMapper
+		    .readValue(
+			    jsonMap,
+			    new TypeReference<MultivaluedHashMap<String, Map<String, ConversionData>>>() {
+			    });
 	    Assert.assertEquals(
 		    "Failed to correctly parse ConversionData map object ",
 		    map, parsedMap);
