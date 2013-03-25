@@ -579,11 +579,6 @@ public class DataTypeTest {
 				.description(
 					"Sextupole field component for a combined function magnet")
 				.build());
-	    }
-	});
-
-	complexMap.put("municonv", new HashMap<String, ConversionData>() {
-	    {
 		put("standard",
 			conversionDataOfType("standard")
 				.withMagnetMeasurementData(
