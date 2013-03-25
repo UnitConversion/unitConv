@@ -501,9 +501,10 @@ public class DataTypeTest {
 	    File jsonComplexMap = tempFolder.newFile("jsonComplexMap");
 	    objectMapper.writeValue(jsonComplexMap, complexMap);
 	    System.out.println(objectMapper.writeValueAsString(complexMap));
-	    Map<String, ConversionData> parsedComplexMap = objectMapper
-		    .readValue(jsonComplexMap,
-			    new TypeReference<Map<String, ConversionData>>() {
+	    MultivaluedMap<String, ConversionData> parsedComplexMap = objectMapper
+		    .readValue(
+			    jsonComplexMap,
+			    new TypeReference<MultivaluedHashMap<String, ConversionData>>() {
 			    });
 	    Assert.assertEquals(
 		    "Failed to correctly parse ConversionData ComplexMap object ",
