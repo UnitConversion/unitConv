@@ -3,24 +3,20 @@
  */
 package org.bnl.gov.unitconversion;
 
+import static org.bnl.gov.unitconversion.ConversionData.ConversionDataBuilder.conversionDataOfType;
 import static org.bnl.gov.unitconversion.Device.DeviceBuilder.device;
 import static org.bnl.gov.unitconversion.MagnetMeasurementData.MagnetMeasurementDataBuilder.magnetMeasurements;
-import static org.bnl.gov.unitconversion.ConversionData.ConversionDataBuilder.conversionDataOfType;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.text.MaskFormatter;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
-import org.bnl.gov.unitconversion.ConversionData.ConversionDataBuilder;
-import org.bnl.gov.unitconversion.MagnetMeasurementData.MagnetMeasurementDataBuilder;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.junit.Assert;
@@ -342,8 +338,8 @@ public class DataTypeTest {
 	Map<String, ConversionAlgorithm> conversionFunctions1 = new HashMap<>();
 	conversionFunctions1.put("i2b", new ConversionAlgorithm(0,
 		"-0.000423222575196*input -0.00021717376728"));
-	Map<String, ConversionData> map = new HashMap<String, ConversionData>();
-	map.put("municonvChain",
+	MultivaluedMap<String, ConversionData> map = new MultivaluedHashMap<String, ConversionData>();
+	map.add("municonvChain",
 		conversionDataOfType("Standard")
 			.forDevice(device("LN-SO5").build())
 			.withConversionFunctions(conversionFunctions1).build());
@@ -369,14 +365,14 @@ public class DataTypeTest {
 	/**
 	 * Data in the form that it is returned from the service
 	 */
-	map.put("municonv",
+	map.add("municonv",
 		conversionDataOfType("Standard")
 			.forDevice(device("LN-SO5").build())
 			.withMagnetMeasurementData(magnetMeasurementData2)
 			.withDefaultBeamEnergy(3.0)
 			.withMagneticLengthDesign(0.35)
 			.withConversionFunctions(conversionFunctions2).build());
-	
+
 	try {
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    File jsonMap = tempFolder.newFile("jsonMap");
@@ -425,7 +421,7 @@ public class DataTypeTest {
 	 * ]}}, "serial": "24", "design_length": "1.3" } }
 	 */
 
-	Map<String, ConversionData> complexMap = new HashMap<String, ConversionData>();
+	MultivaluedMap<String, ConversionData> complexMap = new MultivaluedHashMap<String, ConversionData>();
 
 	Map<String, ConversionAlgorithm> conversionFunctionsCmplx1 = new HashMap<>();
 	conversionFunctionsCmplx1
@@ -434,7 +430,7 @@ public class DataTypeTest {
 				1,
 				"2.717329e-13*input**4 -4.50853e-10*input**3 + 2.156812e-07*input**2 + 0.001495718*input + 0.0014639"));
 	complexMap
-		.put("municonv",
+		.add("municonv",
 			conversionDataOfType("Complex:1")
 				.forDevice(device("A1BD1").build())
 				.withMagnetMeasurementData(
@@ -452,7 +448,7 @@ public class DataTypeTest {
 				1,
 				"1.239146e-12*input**4 -2.242334e-09*input**3 + 1.117486e-06*input**2 + 0.007377142*input + 0.007218819"));
 	complexMap
-		.put("municonv",
+		.add("municonv",
 			conversionDataOfType("Complex:2")
 				.forDevice(device("A1BD1").build())
 				.withMagnetMeasurementData(
@@ -470,7 +466,7 @@ public class DataTypeTest {
 				1,
 				"-7.736754e-11*input**4 + 1.078356e-07*input**3 -4.27955e-05*input**2 + 0.061426*input + 0.031784"));
 	complexMap
-		.put("municonv",
+		.add("municonv",
 			conversionDataOfType("Complex:3")
 				.forDevice(device("A1BD1").build())
 				.withMagnetMeasurementData(
@@ -487,7 +483,7 @@ public class DataTypeTest {
 			new ConversionAlgorithm(
 				1,
 				"-33.289411*input**4 + 84.116293*input**3 -61.320653*input**2 + 668.452373*input -0.969042"));
-	complexMap.put(
+	complexMap.add(
 		"municonv",
 		conversionDataOfType("standard")
 			.forDevice(device("A1BD1").build())
@@ -502,9 +498,10 @@ public class DataTypeTest {
 	    File jsonComplexMap = tempFolder.newFile("jsonComplexMap");
 	    objectMapper.writeValue(jsonComplexMap, complexMap);
 	    System.out.println(objectMapper.writeValueAsString(complexMap));
-	    Map<String, ConversionData> parsedComplexMap = objectMapper.readValue(
-		    jsonComplexMap, new TypeReference<Map<String, ConversionData>>() {
-		    });
+	    Map<String, ConversionData> parsedComplexMap = objectMapper
+		    .readValue(jsonComplexMap,
+			    new TypeReference<Map<String, ConversionData>>() {
+			    });
 	    Assert.assertEquals(
 		    "Failed to correctly parse ConversionData ComplexMap object ",
 		    complexMap, parsedComplexMap);
