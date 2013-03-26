@@ -11,22 +11,27 @@ public class ConversionAlgorithm {
     private int identifier;
     private String function;
     private int auxInfo;
-
+    private String initialUnit;
+    private String finalUnit;
+    
     private ConversionAlgorithm() {
 
     }
 
-    public ConversionAlgorithm(int identifier, String function) {
-	this.identifier = identifier;
-	this.function = function;
-	this.auxInfo = 0;
-    }
-
-    public ConversionAlgorithm(int identifier, String function,
-	    int auxInfo) {
+    /**
+     * @param identifier
+     * @param function
+     * @param auxInfo
+     * @param initialUnit
+     * @param finalUnit
+     */
+    private ConversionAlgorithm(int identifier, String function, int auxInfo,
+	    String initialUnit, String finalUnit) {
 	this.identifier = identifier;
 	this.function = function;
 	this.auxInfo = auxInfo;
+	this.initialUnit = initialUnit;
+	this.finalUnit = finalUnit;
     }
 
     /**
@@ -48,9 +53,25 @@ public class ConversionAlgorithm {
      */
     public int getAuxInfo() {
 	return auxInfo;
+    }    
+    
+    /**
+     * @return the initialUnit
+     */
+    public String getInitialUnit() {
+        return initialUnit;
     }
 
-    /* (non-Javadoc)
+    /**
+     * @return the finalUnit
+     */
+    public String getFinalUnit() {
+        return finalUnit;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -64,7 +85,9 @@ public class ConversionAlgorithm {
 	return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -88,5 +111,64 @@ public class ConversionAlgorithm {
 	return true;
     }
     
+    public static class ConversionAlogrithmBuilder {
+	private int identifier;
+	private String function;
+	private int auxInfo = 0;
+	private String initialUnit;
+	private String finalUnit;
+
+	/**
+	 * @param identifier
+	 * @param function
+	 */
+	private ConversionAlogrithmBuilder(int identifier, String function) {
+	    this.identifier = identifier;
+	    this.function = function;
+	}
+
+	/**
+	 * @param identifier
+	 */
+	private ConversionAlogrithmBuilder(int identifier) {
+	    this.identifier = identifier;
+	}
+
+	public static ConversionAlogrithmBuilder conversionAlgorithm(
+		int identifier) {
+	    return new ConversionAlogrithmBuilder(identifier);
+	}
+
+	public static ConversionAlogrithmBuilder conversionAlgorithm(
+		int identifier, String function) {
+	    return new ConversionAlogrithmBuilder(identifier, function);
+	}
+
+	public ConversionAlogrithmBuilder withFunction(String function) {
+	    this.function = function;
+	    return this;
+	}
+
+	public ConversionAlogrithmBuilder withAuxInfo(int auxInfo) {
+	    this.auxInfo = auxInfo;
+	    return this;
+	}
+
+	public ConversionAlogrithmBuilder withinitialUnit(String initialUnit) {
+	    this.initialUnit = initialUnit;
+	    return this;
+	}
+
+	public ConversionAlogrithmBuilder withfinalUnit(String finalUnit) {
+	    this.finalUnit = finalUnit;
+	    return this;
+	}
+
+	public ConversionAlgorithm build() {
+	    return new ConversionAlgorithm(identifier, function, auxInfo,
+		    initialUnit, finalUnit);
+	}
+    }
+
 
 }

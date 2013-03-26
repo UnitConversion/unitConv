@@ -5,7 +5,8 @@ package org.bnl.gov.unitconversion;
 
 import static org.bnl.gov.unitconversion.Conversion.ConversionDataBuilder.conversionDataOfType;
 import static org.bnl.gov.unitconversion.Device.DeviceBuilder.device;
-import static org.bnl.gov.unitconversion.MeasurementData.MagnetMeasurementDataBuilder.magnetMeasurements;
+import static org.bnl.gov.unitconversion.MeasurementData.MeasurementDataBuilder.magnetMeasurements;
+import static org.bnl.gov.unitconversion.ConversionAlgorithm.ConversionAlogrithmBuilder.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -250,16 +251,18 @@ public class DataTypeTest {
 	Map<String, ConversionAlgorithm> conversionFunctions = new HashMap<String, ConversionAlgorithm>();
 	conversionFunctions
 		.put("i2b",
-			new ConversionAlgorithm(1,
-				"-4.88005454146e-07*input**2 + 0.0010428585052*input  -0.00105886879746"));
-	conversionFunctions.put("b2k", new ConversionAlgorithm(0,
-		"input/(0.0175*3.335646*energy)", 2));
+			conversionAlgorithm(1,
+				"-4.88005454146e-07*input**2 + 0.0010428585052*input  -0.00105886879746")
+				.build());
+	conversionFunctions.put("b2k",
+		conversionAlgorithm(0, "input/(0.0175*3.335646*energy)")
+			.withAuxInfo(2).build());
 	/**
 	 * A Single ConversionData object
 	 */
 	Conversion conversion = conversionDataOfType()
-		.withMeasurementData(measurementData)
-		.withDefaultEnergy(3.0).withMagneticLengthDesign(0.35)
+		.withMeasurementData(measurementData).withDefaultEnergy(3.0)
+		.withMagneticLengthDesign(0.35)
 		.withConversionFunctions(conversionFunctions).build();
 
 	try {
@@ -326,8 +329,10 @@ public class DataTypeTest {
 	 * "i2b": [0, "0.000228046038239*input + 0.000113748"] } } } }
 	 */
 	final Map<String, ConversionAlgorithm> conversionFunctions1 = new HashMap<>();
-	conversionFunctions1.put("i2b", new ConversionAlgorithm(0,
-		"-0.000423222575196*input -0.00021717376728"));
+	conversionFunctions1.put(
+		"i2b",
+		conversionAlgorithm(0,
+			"-0.000423222575196*input -0.00021717376728").build());
 	Map<String, Map<String, Conversion>> map = new HashMap<String, Map<String, Conversion>>();
 	map.put("municonvChain", new HashMap<String, Conversion>() {
 	    {
@@ -351,8 +356,9 @@ public class DataTypeTest {
 		.Current(LNSO5current).CurrentUnit("A").Field(LNSO5field)
 		.FieldUnit("T").Direction(LNSO5direction).build();
 	final Map<String, ConversionAlgorithm> conversionFunctions2 = new HashMap<String, ConversionAlgorithm>();
-	conversionFunctions2.put("i2b", new ConversionAlgorithm(0,
-		"0.000228046038239*input + 0.000113748"));
+	conversionFunctions2.put("i2b",
+		conversionAlgorithm(0, "0.000228046038239*input + 0.000113748")
+			.build());
 
 	/**
 	 * Data in the form that it is returned from the service
@@ -361,8 +367,7 @@ public class DataTypeTest {
 	    {
 		put("standard",
 			conversionDataOfType()
-				.withMeasurementData(
-					magnetMeasurementData2)
+				.withMeasurementData(magnetMeasurementData2)
 				.withDefaultEnergy(3.0)
 				.withMagneticLengthDesign(0.35)
 				.withConversionFunctions(conversionFunctions2)
@@ -425,29 +430,33 @@ public class DataTypeTest {
 	final Map<String, ConversionAlgorithm> conversionFunctionsCmplx1 = new HashMap<>();
 	conversionFunctionsCmplx1
 		.put("i2b",
-			new ConversionAlgorithm(
+			conversionAlgorithm(
 				1,
-				"2.717329e-13*input**4 -4.50853e-10*input**3 + 2.156812e-07*input**2 + 0.001495718*input + 0.0014639"));
+				"2.717329e-13*input**4 -4.50853e-10*input**3 + 2.156812e-07*input**2 + 0.001495718*input + 0.0014639")
+				.build());
 	final Map<String, ConversionAlgorithm> conversionFunctionsCmplx2 = new HashMap<>();
 	conversionFunctionsCmplx2
 		.put("i2b",
-			new ConversionAlgorithm(
+			conversionAlgorithm(
 				1,
-				"1.239146e-12*input**4 -2.242334e-09*input**3 + 1.117486e-06*input**2 + 0.007377142*input + 0.007218819"));
+				"1.239146e-12*input**4 -2.242334e-09*input**3 + 1.117486e-06*input**2 + 0.007377142*input + 0.007218819")
+				.build());
 
 	final Map<String, ConversionAlgorithm> conversionFunctionsCmplx3 = new HashMap<>();
 	conversionFunctionsCmplx3
 		.put("i2b",
-			new ConversionAlgorithm(
+			conversionAlgorithm(
 				1,
-				"-7.736754e-11*input**4 + 1.078356e-07*input**3 -4.27955e-05*input**2 + 0.061426*input + 0.031784"));
+				"-7.736754e-11*input**4 + 1.078356e-07*input**3 -4.27955e-05*input**2 + 0.061426*input + 0.031784")
+				.build());
 
 	final Map<String, ConversionAlgorithm> conversionFunctionsStandard = new HashMap<>();
 	conversionFunctionsCmplx2
 		.put("b2i",
-			new ConversionAlgorithm(
+			conversionAlgorithm(
 				1,
-				"-33.289411*input**4 + 84.116293*input**3 -61.320653*input**2 + 668.452373*input -0.969042"));
+				"-33.289411*input**4 + 84.116293*input**3 -61.320653*input**2 + 668.452373*input -0.969042")
+				.build());
 	complexMap.put("municonv", new HashMap<String, Conversion>() {
 	    {
 		put("Complex:1",

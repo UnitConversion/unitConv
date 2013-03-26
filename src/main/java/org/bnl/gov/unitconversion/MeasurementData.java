@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class MeasurementData {
 
-    public static class MagnetMeasurementDataBuilder {
+    public static class MeasurementDataBuilder {
 	private List<String> direction = Collections.emptyList();
 	private List<Double> current = Collections.emptyList();
 	private List<Double> currentError = Collections.emptyList();
@@ -21,19 +21,19 @@ public class MeasurementData {
 	private List<Double> runNumber = Collections.emptyList();
 	private int serialNumber;
 
-	private MagnetMeasurementDataBuilder() {
+	private MeasurementDataBuilder() {
 
 	}
 
-	public static MagnetMeasurementDataBuilder magnetMeasurements() {
-	    return new MagnetMeasurementDataBuilder();
+	public static MeasurementDataBuilder magnetMeasurements() {
+	    return new MeasurementDataBuilder();
 	}
 
 	/**
 	 * @param direction
 	 *            the direction to set
 	 */
-	public MagnetMeasurementDataBuilder Direction(List<String> direction) {
+	public MeasurementDataBuilder Direction(List<String> direction) {
 	    this.direction = direction;
 	    return this;
 	}
@@ -42,7 +42,7 @@ public class MeasurementData {
 	 * @param current
 	 *            the current to set
 	 */
-	public MagnetMeasurementDataBuilder Current(List<Double> current) {
+	public MeasurementDataBuilder Current(List<Double> current) {
 	    this.current = current;
 	    return this;
 	}
@@ -51,7 +51,7 @@ public class MeasurementData {
 	 * @param currentError
 	 *            the currentError to set
 	 */
-	public MagnetMeasurementDataBuilder CurrentError(
+	public MeasurementDataBuilder CurrentError(
 		List<Double> currentError) {
 	    this.currentError = currentError;
 	    return this;
@@ -61,7 +61,7 @@ public class MeasurementData {
 	 * @param currentUnit
 	 *            the currentUnit to set
 	 */
-	public MagnetMeasurementDataBuilder CurrentUnit(String currentUnit) {
+	public MeasurementDataBuilder CurrentUnit(String currentUnit) {
 	    this.currentUnit = currentUnit;
 	    return this;
 	}
@@ -70,7 +70,7 @@ public class MeasurementData {
 	 * @param field
 	 *            the field to set
 	 */
-	public MagnetMeasurementDataBuilder Field(List<Double> field) {
+	public MeasurementDataBuilder Field(List<Double> field) {
 	    this.field = field;
 	    return this;
 	}
@@ -79,7 +79,7 @@ public class MeasurementData {
 	 * @param fieldError
 	 *            the fieldError to set
 	 */
-	public MagnetMeasurementDataBuilder FieldError(List<Double> fieldError) {
+	public MeasurementDataBuilder FieldError(List<Double> fieldError) {
 	    this.fieldError = fieldError;
 	    return this;
 	}
@@ -88,7 +88,7 @@ public class MeasurementData {
 	 * @param fieldUnit
 	 *            the fieldUnit to set
 	 */
-	public MagnetMeasurementDataBuilder FieldUnit(String fieldUnit) {
+	public MeasurementDataBuilder FieldUnit(String fieldUnit) {
 	    this.fieldUnit = fieldUnit;
 	    return this;
 	}
@@ -97,7 +97,7 @@ public class MeasurementData {
 	 * @param magneticLength
 	 *            the magneticLength to set
 	 */
-	public MagnetMeasurementDataBuilder MagneticLength(
+	public MeasurementDataBuilder MagneticLength(
 		List<Double> magneticLength) {
 	    this.magneticLength = magneticLength;
 	    return this;
@@ -107,7 +107,7 @@ public class MeasurementData {
 	 * @param averageMagneticLength
 	 *            the averageMagneticLength to set
 	 */
-	public MagnetMeasurementDataBuilder AverageMagneticLength(
+	public MeasurementDataBuilder AverageMagneticLength(
 		Double averageMagneticLength) {
 	    this.averageMagneticLength = averageMagneticLength;
 	    return this;
@@ -117,7 +117,7 @@ public class MeasurementData {
 	 * @param runNumber
 	 *            the runNumber to set
 	 */
-	public MagnetMeasurementDataBuilder RunNumber(List<Double> runNumber) {
+	public MeasurementDataBuilder RunNumber(List<Double> runNumber) {
 	    this.runNumber = runNumber;
 	    return this;
 	}
@@ -126,7 +126,7 @@ public class MeasurementData {
 	 * @param serialNumber
 	 *            the serialNumber to set
 	 */
-	public MagnetMeasurementDataBuilder SerialNumber(int serialNumber) {
+	public MeasurementDataBuilder SerialNumber(int serialNumber) {
 	    this.serialNumber = serialNumber;
 	    return this;
 	}
