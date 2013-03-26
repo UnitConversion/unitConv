@@ -3,9 +3,9 @@
  */
 package org.bnl.gov.unitconversion;
 
-import static org.bnl.gov.unitconversion.ConversionData.ConversionDataBuilder.conversionDataOfType;
+import static org.bnl.gov.unitconversion.Conversion.ConversionDataBuilder.conversionDataOfType;
 import static org.bnl.gov.unitconversion.Device.DeviceBuilder.device;
-import static org.bnl.gov.unitconversion.MagnetMeasurementData.MagnetMeasurementDataBuilder.magnetMeasurements;
+import static org.bnl.gov.unitconversion.MeasurementData.MagnetMeasurementDataBuilder.magnetMeasurements;
 
 import java.io.File;
 import java.util.Arrays;
@@ -13,9 +13,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -111,23 +108,20 @@ public class DataTypeTest {
 		"Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn",
 		"Dn");
 	List<Double> magneticLength = Collections.emptyList();
-	MagnetMeasurementData magnetMeasurementData = magnetMeasurements()
-		.Current(current).CurrentUnit("A").Field(field)
-		.FieldUnit("T-m").Direction(direction)
-		.MagneticLength(magneticLength).build();
+	MeasurementData measurementData = magnetMeasurements().Current(current)
+		.CurrentUnit("A").Field(field).FieldUnit("T-m")
+		.Direction(direction).MagneticLength(magneticLength).build();
 	try {
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    File jsonMagnetMeasurementData = tempFolder
 		    .newFile("jsonMagnetMeasurementData");
-	    objectMapper.writeValue(jsonMagnetMeasurementData,
-		    magnetMeasurementData);
-	    System.out.println(objectMapper
-		    .writeValueAsString(magnetMeasurementData));
-	    MagnetMeasurementData parsedMagnetMeasurementData = objectMapper
-		    .readValue(jsonMagnetMeasurementData,
-			    MagnetMeasurementData.class);
+	    objectMapper.writeValue(jsonMagnetMeasurementData, measurementData);
+	    System.out
+		    .println(objectMapper.writeValueAsString(measurementData));
+	    MeasurementData parsedMagnetMeasurementData = objectMapper
+		    .readValue(jsonMagnetMeasurementData, MeasurementData.class);
 	    Assert.assertEquals("Failed to correctly parse Device object ",
-		    magnetMeasurementData, parsedMagnetMeasurementData);
+		    measurementData, parsedMagnetMeasurementData);
 	} catch (Exception e) {
 	    Assert.fail(e.getMessage());
 	}
@@ -136,8 +130,6 @@ public class DataTypeTest {
 
     @Test
     public void testConversionData() {
-	// preliminary test
-	// ConversionDataBuilder.conversionDataOfType(type)
 	/**
 	 * Example: Standard { "BS-Q1BD1": { "name": "BS-Q1BD1", "system":
 	 * "BST",
@@ -252,10 +244,9 @@ public class DataTypeTest {
 		"Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn",
 		"Dn");
 	List<Double> magneticLength = Collections.emptyList();
-	MagnetMeasurementData magnetMeasurementData = magnetMeasurements()
-		.Current(current).CurrentUnit("A").Field(field)
-		.FieldUnit("T-m").Direction(direction)
-		.MagneticLength(magneticLength).build();
+	MeasurementData measurementData = magnetMeasurements().Current(current)
+		.CurrentUnit("A").Field(field).FieldUnit("T-m")
+		.Direction(direction).MagneticLength(magneticLength).build();
 	Map<String, ConversionAlgorithm> conversionFunctions = new HashMap<String, ConversionAlgorithm>();
 	conversionFunctions
 		.put("i2b",
@@ -266,21 +257,21 @@ public class DataTypeTest {
 	/**
 	 * A Single ConversionData object
 	 */
-	ConversionData conversionData = conversionDataOfType("Standard")
-		.withMagnetMeasurementData(magnetMeasurementData)
-		.withDefaultBeamEnergy(3.0).withMagneticLengthDesign(0.35)
+	Conversion conversion = conversionDataOfType()
+		.withMeasurementData(measurementData)
+		.withDefaultEnergy(3.0).withMagneticLengthDesign(0.35)
 		.withConversionFunctions(conversionFunctions).build();
 
 	try {
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    File jsonConversionData = tempFolder.newFile("jsonConversionData");
-	    objectMapper.writeValue(jsonConversionData, conversionData);
-	    System.out.println(objectMapper.writeValueAsString(conversionData));
-	    ConversionData parsedConversionData = objectMapper.readValue(
-		    jsonConversionData, ConversionData.class);
+	    objectMapper.writeValue(jsonConversionData, conversion);
+	    System.out.println(objectMapper.writeValueAsString(conversion));
+	    Conversion parsedConversionData = objectMapper.readValue(
+		    jsonConversionData, Conversion.class);
 	    Assert.assertEquals(
 		    "Failed to correctly parse ConversionData object ",
-		    conversionData, parsedConversionData);
+		    conversion, parsedConversionData);
 	} catch (Exception e) {
 	    Assert.fail(e.getMessage());
 	}
@@ -337,11 +328,12 @@ public class DataTypeTest {
 	final Map<String, ConversionAlgorithm> conversionFunctions1 = new HashMap<>();
 	conversionFunctions1.put("i2b", new ConversionAlgorithm(0,
 		"-0.000423222575196*input -0.00021717376728"));
-	MultivaluedMap<String, Map<String, ConversionData>> map = new MultivaluedHashMap<String, Map<String, ConversionData>>();
-	map.add("municonvChain", new HashMap<String, ConversionData>() {
+	Map<String, Map<String, Conversion>> map = new HashMap<String, Map<String, Conversion>>();
+	map.put("municonvChain", new HashMap<String, Conversion>() {
 	    {
-		put("standard", conversionDataOfType("Standard")
-			.withConversionFunctions(conversionFunctions1).build());
+		put("standard",
+			conversionDataOfType().withConversionFunctions(
+				conversionFunctions1).build());
 	    }
 	});
 	List<Double> LNSO5current = Arrays.asList(0.0, 5.0, 10.0, 15.0, 20.0,
@@ -355,7 +347,7 @@ public class DataTypeTest {
 		-0.009285, -0.010423, -0.011546, -0.012694, -0.013817,
 		-0.014941, -0.016098, -0.017217, -0.018358, -0.019476,
 		-0.020613, -0.021764, -0.022898);
-	final MagnetMeasurementData magnetMeasurementData2 = magnetMeasurements()
+	final MeasurementData magnetMeasurementData2 = magnetMeasurements()
 		.Current(LNSO5current).CurrentUnit("A").Field(LNSO5field)
 		.FieldUnit("T").Direction(LNSO5direction).build();
 	final Map<String, ConversionAlgorithm> conversionFunctions2 = new HashMap<String, ConversionAlgorithm>();
@@ -365,13 +357,13 @@ public class DataTypeTest {
 	/**
 	 * Data in the form that it is returned from the service
 	 */
-	map.add("municonv", new HashMap<String, ConversionData>() {
+	map.put("municonv", new HashMap<String, Conversion>() {
 	    {
 		put("standard",
-			conversionDataOfType("Standard")
-				.withMagnetMeasurementData(
+			conversionDataOfType()
+				.withMeasurementData(
 					magnetMeasurementData2)
-				.withDefaultBeamEnergy(3.0)
+				.withDefaultEnergy(3.0)
 				.withMagneticLengthDesign(0.35)
 				.withConversionFunctions(conversionFunctions2)
 				.build());
@@ -383,10 +375,10 @@ public class DataTypeTest {
 	    File jsonMap = tempFolder.newFile("jsonMap");
 	    objectMapper.writeValue(jsonMap, map);
 	    System.out.println(objectMapper.writeValueAsString(map));
-	    MultivaluedMap<String, Map<String, ConversionData>> parsedMap = objectMapper
+	    Map<String, Map<String, Conversion>> parsedMap = objectMapper
 		    .readValue(
 			    jsonMap,
-			    new TypeReference<MultivaluedHashMap<String, Map<String, ConversionData>>>() {
+			    new TypeReference<HashMap<String, HashMap<String, Conversion>>>() {
 			    });
 	    Assert.assertEquals(
 		    "Failed to correctly parse ConversionData map object ",
@@ -428,98 +420,7 @@ public class DataTypeTest {
 	 * ]}}, "serial": "24", "design_length": "1.3" } }
 	 */
 
-	MultivaluedMap<String, ConversionData> complexMap = new MultivaluedHashMap<String, ConversionData>();
-
-	Map<String, ConversionAlgorithm> conversionFunctionsCmplx1 = new HashMap<>();
-	conversionFunctionsCmplx1
-		.put("i2b",
-			new ConversionAlgorithm(
-				1,
-				"2.717329e-13*input**4 -4.50853e-10*input**3 + 2.156812e-07*input**2 + 0.001495718*input + 0.0014639"));
-	complexMap
-		.add("municonv",
-			conversionDataOfType("Complex:1")
-				.withMagnetMeasurementData(
-					magnetMeasurements().FieldUnit("T")
-						.CurrentUnit("A").build())
-				.withConversionFunctions(
-					conversionFunctionsCmplx1)
-				.description(
-					"Dipole field component for a combined function magnet")
-				.build());
-	Map<String, ConversionAlgorithm> conversionFunctionsCmplx2 = new HashMap<>();
-	conversionFunctionsCmplx2
-		.put("i2b",
-			new ConversionAlgorithm(
-				1,
-				"1.239146e-12*input**4 -2.242334e-09*input**3 + 1.117486e-06*input**2 + 0.007377142*input + 0.007218819"));
-	complexMap
-		.add("municonv",
-			conversionDataOfType("Complex:2")
-				.withMagnetMeasurementData(
-					magnetMeasurements().FieldUnit("T/m")
-						.CurrentUnit("A").build())
-				.withConversionFunctions(
-					conversionFunctionsCmplx2)
-				.description(
-					"Quadrupole field component for a combined function magnet")
-				.build());
-	Map<String, ConversionAlgorithm> conversionFunctionsCmplx3 = new HashMap<>();
-	conversionFunctionsCmplx2
-		.put("i2b",
-			new ConversionAlgorithm(
-				1,
-				"-7.736754e-11*input**4 + 1.078356e-07*input**3 -4.27955e-05*input**2 + 0.061426*input + 0.031784"));
-	complexMap
-		.add("municonv",
-			conversionDataOfType("Complex:3")
-				.withMagnetMeasurementData(
-					magnetMeasurements().FieldUnit("T/m^2")
-						.CurrentUnit("A").build())
-				.withConversionFunctions(
-					conversionFunctionsCmplx3)
-				.description(
-					"Sextupole field component for a combined function magnet")
-				.build());
-	Map<String, ConversionAlgorithm> conversionFunctionsStandard = new HashMap<>();
-	conversionFunctionsCmplx2
-		.put("b2i",
-			new ConversionAlgorithm(
-				1,
-				"-33.289411*input**4 + 84.116293*input**3 -61.320653*input**2 + 668.452373*input -0.969042"));
-	complexMap.add(
-		"municonv",
-		conversionDataOfType("standard")
-			.withMagnetMeasurementData(
-				magnetMeasurements().FieldUnit("T")
-					.CurrentUnit("A").SerialNumber(24)
-					.build())
-			.withConversionFunctions(conversionFunctionsStandard)
-			.withMagneticLengthDesign(1.3).build());
-	try {
-	    ObjectMapper objectMapper = new ObjectMapper();
-	    File jsonComplexMap = tempFolder.newFile("jsonComplexMap");
-	    objectMapper.writeValue(jsonComplexMap, complexMap);
-	    System.out.println(objectMapper.writeValueAsString(complexMap));
-	    MultivaluedMap<String, ConversionData> parsedComplexMap = objectMapper
-		    .readValue(
-			    jsonComplexMap,
-			    new TypeReference<MultivaluedHashMap<String, ConversionData>>() {
-			    });
-	    Assert.assertEquals(
-		    "Failed to correctly parse ConversionData ComplexMap object ",
-		    complexMap, parsedComplexMap);
-	} catch (Exception e) {
-	    Assert.fail(e.getMessage());
-	}
-    }
-
-    @Test
-    public void testDataTypes() {
-	/**
-	 * A second option for representing the converionInfo
-	 */
-	Map<String, Map<String, ConversionData>> complexMap = new HashMap<String, Map<String, ConversionData>>();
+	Map<String, Map<String, Conversion>> complexMap = new HashMap<String, Map<String, Conversion>>();
 
 	final Map<String, ConversionAlgorithm> conversionFunctionsCmplx1 = new HashMap<>();
 	conversionFunctionsCmplx1
@@ -547,11 +448,11 @@ public class DataTypeTest {
 			new ConversionAlgorithm(
 				1,
 				"-33.289411*input**4 + 84.116293*input**3 -61.320653*input**2 + 668.452373*input -0.969042"));
-	complexMap.put("municonv", new HashMap<String, ConversionData>() {
+	complexMap.put("municonv", new HashMap<String, Conversion>() {
 	    {
 		put("Complex:1",
-			conversionDataOfType("Complex:1")
-				.withMagnetMeasurementData(
+			conversionDataOfType()
+				.withMeasurementData(
 					magnetMeasurements().FieldUnit("T")
 						.CurrentUnit("A").build())
 				.withConversionFunctions(
@@ -560,8 +461,8 @@ public class DataTypeTest {
 					"Dipole field component for a combined function magnet")
 				.build());
 		put("Complex:2",
-			conversionDataOfType("Complex:2")
-				.withMagnetMeasurementData(
+			conversionDataOfType()
+				.withMeasurementData(
 					magnetMeasurements().FieldUnit("T/m")
 						.CurrentUnit("A").build())
 				.withConversionFunctions(
@@ -570,8 +471,8 @@ public class DataTypeTest {
 					"Quadrupole field component for a combined function magnet")
 				.build());
 		put("Complex:3",
-			conversionDataOfType("Complex:3")
-				.withMagnetMeasurementData(
+			conversionDataOfType()
+				.withMeasurementData(
 					magnetMeasurements().FieldUnit("T/m^2")
 						.CurrentUnit("A").build())
 				.withConversionFunctions(
@@ -580,8 +481,8 @@ public class DataTypeTest {
 					"Sextupole field component for a combined function magnet")
 				.build());
 		put("standard",
-			conversionDataOfType("standard")
-				.withMagnetMeasurementData(
+			conversionDataOfType()
+				.withMeasurementData(
 					magnetMeasurements().FieldUnit("T")
 						.CurrentUnit("A")
 						.SerialNumber(24).build())
@@ -595,10 +496,10 @@ public class DataTypeTest {
 	    File jsonComplexMap = tempFolder.newFile("jsonComplexMap");
 	    objectMapper.writeValue(jsonComplexMap, complexMap);
 	    System.out.println(objectMapper.writeValueAsString(complexMap));
-	    Map<String, Map<String, ConversionData>> parsedComplexMap = objectMapper
+	    Map<String, Map<String, Conversion>> parsedComplexMap = objectMapper
 		    .readValue(
 			    jsonComplexMap,
-			    new TypeReference<HashMap<String, HashMap<String, ConversionData>>>() {
+			    new TypeReference<HashMap<String, HashMap<String, Conversion>>>() {
 			    });
 	    Assert.assertEquals(
 		    "Failed to correctly parse ConversionData ComplexMap object ",

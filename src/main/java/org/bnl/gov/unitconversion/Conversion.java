@@ -13,35 +13,35 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  */
 @XmlRootElement
-public class ConversionData {
+public class Conversion {
 
     public static class ConversionDataBuilder {
-	private String type = "standard";
 
-	private MagnetMeasurementData magnetMeasurementData;
+	private MeasurementData measurementData;
 
 	// These are design values
 	private Double magneticLengthDesign;
-	private Double defaultBeamEnergy;
+	private Double defaultEnergy;
 
-	private Double liveBeamEnergy;
+	private Double realEnergy;
 
 	private Map<String, ConversionAlgorithm> conversionFunctions = Collections
 		.emptyMap();
 
 	private String description;
 
-	private ConversionDataBuilder(String type) {
-	    this.type = type;
+	private ConversionResult conversionResult;
+
+	private ConversionDataBuilder() {
 	}
 
-	public static ConversionDataBuilder conversionDataOfType(String type) {
-	    return new ConversionDataBuilder(type);
+	public static ConversionDataBuilder conversionDataOfType() {
+	    return new ConversionDataBuilder();
 	}
 
-	public ConversionDataBuilder withMagnetMeasurementData(
-		MagnetMeasurementData magnetMeasurementData) {
-	    this.magnetMeasurementData = magnetMeasurementData;
+	public ConversionDataBuilder withMeasurementData(
+		MeasurementData measurementData) {
+	    this.measurementData = measurementData;
 	    return this;
 	}
 
@@ -51,14 +51,13 @@ public class ConversionData {
 	    return this;
 	}
 
-	public ConversionDataBuilder withDefaultBeamEnergy(
-		Double defaultBeamEnergy) {
-	    this.defaultBeamEnergy = defaultBeamEnergy;
+	public ConversionDataBuilder withDefaultEnergy(Double defaultEnergy) {
+	    this.defaultEnergy = defaultEnergy;
 	    return this;
 	}
 
-	public ConversionDataBuilder withLiveBeamEnergy(Double liveBeamEnergy) {
-	    this.liveBeamEnergy = liveBeamEnergy;
+	public ConversionDataBuilder withRealEnergy(Double realEnergy) {
+	    this.realEnergy = realEnergy;
 	    return this;
 	}
 
@@ -73,69 +72,68 @@ public class ConversionData {
 	    return this;
 	}
 
-	public ConversionData build() {
-	    return new ConversionData(type, magnetMeasurementData,
-		    magneticLengthDesign, defaultBeamEnergy, liveBeamEnergy,
-		    conversionFunctions, description);
+	public ConversionDataBuilder conversionResult(
+		ConversionResult conversionResult) {
+	    this.conversionResult = conversionResult;
+	    return this;
+	}
+
+	public Conversion build() {
+	    return new Conversion(measurementData, magneticLengthDesign,
+		    defaultEnergy, realEnergy, conversionFunctions,
+		    description, conversionResult);
 	}
 
     }
 
-    private String type;
-
-    private MagnetMeasurementData magnetMeasurementData;
+    private MeasurementData measurementData;
 
     // These are design values
     private Double magneticLengthDesign;
-    private Double defaultBeamEnergy;
+    private Double defaultEnergy;
 
-    private Double liveBeamEnergy;
+    private Double realEnergy;
 
     private Map<String, ConversionAlgorithm> conversionFunctions;
 
     private String description;
 
-    private ConversionData() {
+    private ConversionResult conversionResult;
+
+    private Conversion() {
 
     }
 
     /**
      * @param type
      * @param device
-     * @param magnetMeasurementData
+     * @param measurementData
      * @param magneticLengthDesign
-     * @param defaultBeamEnergy
+     * @param defaultEnergy
      * @param liveBeamEnergy
      * @param conversionFunctions
      * @param description
      */
-    private ConversionData(String type,
-	    MagnetMeasurementData magnetMeasurementData,
-	    Double magneticLengthDesign, Double defaultBeamEnergy,
-	    Double liveBeamEnergy,
+    private Conversion(MeasurementData measurementData,
+	    Double magneticLengthDesign, Double defaultEnergy,
+	    Double realEnergy,
 	    Map<String, ConversionAlgorithm> conversionFunctions,
-	    String description) {
-	this.type = type;
-	this.magnetMeasurementData = magnetMeasurementData;
+	    String description, ConversionResult conversionResult) {
+	this.measurementData = measurementData;
 	this.magneticLengthDesign = magneticLengthDesign;
-	this.defaultBeamEnergy = defaultBeamEnergy;
-	this.liveBeamEnergy = liveBeamEnergy;
+	this.defaultEnergy = defaultEnergy;
+	this.realEnergy = realEnergy;
 	this.conversionFunctions = conversionFunctions;
 	this.description = description;
+	this.conversionResult = conversionResult;
     }
 
+   
     /**
-     * @return the type
+     * @return the measurementData
      */
-    public String getType() {
-	return type;
-    }
-
-    /**
-     * @return the magnetMeasurementData
-     */
-    public MagnetMeasurementData getMagnetMeasurementData() {
-	return magnetMeasurementData;
+    public MeasurementData getMeasurementData() {
+        return measurementData;
     }
 
     /**
@@ -146,17 +144,17 @@ public class ConversionData {
     }
 
     /**
-     * @return the defaultBeamEnergy
+     * @return the defaultEnergy
      */
-    public Double getDefaultBeamEnergy() {
-	return defaultBeamEnergy;
+    public Double getDefaultEnergy() {
+        return defaultEnergy;
     }
 
     /**
-     * @return the liveBeamEnergy
+     * @return the realEnergy
      */
-    public Double getLiveBeamEnergy() {
-	return liveBeamEnergy;
+    public Double getRealEnergy() {
+        return realEnergy;
     }
 
     /**
@@ -171,6 +169,13 @@ public class ConversionData {
      */
     public String getDescription() {
 	return description;
+    }
+
+    /**
+     * @return the conversionResult
+     */
+    public ConversionResult getConversionResult() {
+	return conversionResult;
     }
 
     /*
@@ -188,22 +193,19 @@ public class ConversionData {
 			.hashCode());
 	result = prime
 		* result
-		+ ((defaultBeamEnergy == null) ? 0 : defaultBeamEnergy
-			.hashCode());
+		+ ((conversionResult == null) ? 0 : conversionResult.hashCode());
+	result = prime * result
+		+ ((defaultEnergy == null) ? 0 : defaultEnergy.hashCode());
 	result = prime * result
 		+ ((description == null) ? 0 : description.hashCode());
-
 	result = prime * result
-		+ ((liveBeamEnergy == null) ? 0 : liveBeamEnergy.hashCode());
-	result = prime
-		* result
-		+ ((magnetMeasurementData == null) ? 0 : magnetMeasurementData
-			.hashCode());
+		+ ((realEnergy == null) ? 0 : realEnergy.hashCode());
 	result = prime
 		* result
 		+ ((magneticLengthDesign == null) ? 0 : magneticLengthDesign
 			.hashCode());
-	result = prime * result + ((type == null) ? 0 : type.hashCode());
+	result = prime * result
+		+ ((measurementData == null) ? 0 : measurementData.hashCode());
 	return result;
     }
 
@@ -220,41 +222,41 @@ public class ConversionData {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	ConversionData other = (ConversionData) obj;
+	Conversion other = (Conversion) obj;
 	if (conversionFunctions == null) {
 	    if (other.conversionFunctions != null)
 		return false;
 	} else if (!conversionFunctions.equals(other.conversionFunctions))
 	    return false;
-	if (defaultBeamEnergy == null) {
-	    if (other.defaultBeamEnergy != null)
+	if (conversionResult == null) {
+	    if (other.conversionResult != null)
 		return false;
-	} else if (!defaultBeamEnergy.equals(other.defaultBeamEnergy))
+	} else if (!conversionResult.equals(other.conversionResult))
+	    return false;
+	if (defaultEnergy == null) {
+	    if (other.defaultEnergy != null)
+		return false;
+	} else if (!defaultEnergy.equals(other.defaultEnergy))
 	    return false;
 	if (description == null) {
 	    if (other.description != null)
 		return false;
 	} else if (!description.equals(other.description))
 	    return false;
-	if (liveBeamEnergy == null) {
-	    if (other.liveBeamEnergy != null)
+	if (realEnergy == null) {
+	    if (other.realEnergy != null)
 		return false;
-	} else if (!liveBeamEnergy.equals(other.liveBeamEnergy))
-	    return false;
-	if (magnetMeasurementData == null) {
-	    if (other.magnetMeasurementData != null)
-		return false;
-	} else if (!magnetMeasurementData.equals(other.magnetMeasurementData))
+	} else if (!realEnergy.equals(other.realEnergy))
 	    return false;
 	if (magneticLengthDesign == null) {
 	    if (other.magneticLengthDesign != null)
 		return false;
 	} else if (!magneticLengthDesign.equals(other.magneticLengthDesign))
 	    return false;
-	if (type == null) {
-	    if (other.type != null)
+	if (measurementData == null) {
+	    if (other.measurementData != null)
 		return false;
-	} else if (!type.equals(other.type))
+	} else if (!measurementData.equals(other.measurementData))
 	    return false;
 	return true;
     }

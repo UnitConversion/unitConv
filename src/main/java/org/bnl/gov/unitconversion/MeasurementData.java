@@ -6,7 +6,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class MagnetMeasurementData {
+public class MeasurementData {
 
     public static class MagnetMeasurementDataBuilder {
 	private List<String> direction = Collections.emptyList();
@@ -131,8 +131,8 @@ public class MagnetMeasurementData {
 	    return this;
 	}
 
-	public MagnetMeasurementData build() {
-	    return new MagnetMeasurementData(this.direction, this.current,
+	public MeasurementData build() {
+	    return new MeasurementData(this.direction, this.current,
 		    this.currentError, this.currentUnit, this.field,
 		    this.fieldError, this.fieldUnit, this.magneticLength,
 		    this.averageMagneticLength, this.runNumber,
@@ -152,7 +152,7 @@ public class MagnetMeasurementData {
     private List<Double> runNumber;
     private int serialNumber;
 
-    private MagnetMeasurementData() {
+    private MeasurementData() {
     }
 
     /**
@@ -167,7 +167,7 @@ public class MagnetMeasurementData {
      * @param runNumber
      * @param serialNumber
      */
-    private MagnetMeasurementData(List<String> direction, List<Double> current,
+    private MeasurementData(List<String> direction, List<Double> current,
 	    List<Double> currentError, String currentUnit, List<Double> field,
 	    List<Double> fieldError, String fieldUnit,
 	    List<Double> magneticLength, Double averageMagneticLength,
@@ -304,7 +304,7 @@ public class MagnetMeasurementData {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	MagnetMeasurementData other = (MagnetMeasurementData) obj;
+	MeasurementData other = (MeasurementData) obj;
 	if (averageMagneticLength == null) {
 	    if (other.averageMagneticLength != null)
 		return false;

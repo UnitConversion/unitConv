@@ -10,7 +10,7 @@ package org.bnl.gov.unitconversion;
 public class ConversionAlgorithm {
     private int identifier;
     private String function;
-    private int additionalAttributes;
+    private int auxInfo;
 
     private ConversionAlgorithm() {
 
@@ -19,14 +19,14 @@ public class ConversionAlgorithm {
     public ConversionAlgorithm(int identifier, String function) {
 	this.identifier = identifier;
 	this.function = function;
-	this.additionalAttributes = 0;
+	this.auxInfo = 0;
     }
 
     public ConversionAlgorithm(int identifier, String function,
-	    int additionalAttributes) {
+	    int auxInfo) {
 	this.identifier = identifier;
 	this.function = function;
-	this.additionalAttributes = additionalAttributes;
+	this.auxInfo = auxInfo;
     }
 
     /**
@@ -46,8 +46,8 @@ public class ConversionAlgorithm {
     /**
      * @return the additionalAttributes
      */
-    public int getAdditionalAttributes() {
-	return additionalAttributes;
+    public int getAuxInfo() {
+	return auxInfo;
     }
 
     /* (non-Javadoc)
@@ -57,7 +57,7 @@ public class ConversionAlgorithm {
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime * result + additionalAttributes;
+	result = prime * result + auxInfo;
 	result = prime * result
 		+ ((function == null) ? 0 : function.hashCode());
 	result = prime * result + identifier;
@@ -76,7 +76,7 @@ public class ConversionAlgorithm {
 	if (getClass() != obj.getClass())
 	    return false;
 	ConversionAlgorithm other = (ConversionAlgorithm) obj;
-	if (additionalAttributes != other.additionalAttributes)
+	if (auxInfo != other.auxInfo)
 	    return false;
 	if (function == null) {
 	    if (other.function != null)

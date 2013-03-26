@@ -83,7 +83,7 @@ public class ConversionClient {
 	}
     }
 
-    public Map<String, ConversionData> getConversionInfo(String name) throws JsonParseException, JsonMappingException, ClientHandlerException, UniformInterfaceException, IOException {
+    public Map<String, Conversion> getConversionInfo(String name) throws JsonParseException, JsonMappingException, ClientHandlerException, UniformInterfaceException, IOException {
 	MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
 	queryParams.add("name", name);
 	ClientResponse clientResponse = service.path("conversion")

@@ -104,7 +104,7 @@ public class ClientTest {
 	ConversionClient client = new ConversionClient(
 		"http://localhost:8000/magnets");
 	try {
-	    Map<String, ConversionData> info = client.getConversionInfo("LN-SO5");
+	    Map<String, Conversion> info = client.getConversionInfo("LN-SO5");
 	} catch (Exception e) {
 	    Assert.fail(e.getMessage());
 	}

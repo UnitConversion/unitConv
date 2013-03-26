@@ -24,7 +24,7 @@ public class Device {
 	private String typeDescription;
 	private String vendor;
 	private int serialNumber;
-	private MultivaluedMap<String, ConversionData> conversionInfo;
+	private MultivaluedMap<String, Conversion> conversionInfo;
 
 	/**
 	 * 
@@ -76,7 +76,7 @@ public class Device {
 	    return this;
 	}
 	
-	public DeviceBuilder conversionInfo(MultivaluedMap<String, ConversionData> conversionInfo){
+	public DeviceBuilder conversionInfo(MultivaluedMap<String, Conversion> conversionInfo){
 	    this.conversionInfo = conversionInfo;
 	    return this;
 	}
@@ -100,7 +100,7 @@ public class Device {
     private String typeDescription;
     private String vendor;
     
-    private MultivaluedMap<String, ConversionData> conversionInfo;
+    private MultivaluedMap<String, Conversion> conversionInfo;
 
     private Device(){
     }
@@ -113,7 +113,7 @@ public class Device {
      * @param vendor
      */
     private Device(String name, String system, int installId,
-	    String componentTypeName, String typeDescription, String vendor, int serialNumber, MultivaluedMap<String, ConversionData> conversionInfo) {
+	    String componentTypeName, String typeDescription, String vendor, int serialNumber, MultivaluedMap<String, Conversion> conversionInfo) {
 	this.name = name;
 	this.system = system;
 	this.installId = installId;
