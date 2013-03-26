@@ -8,37 +8,37 @@ package org.bnl.gov.unitconversion;
  * 
  */
 public class ConversionAlgorithm {
-    private int identifier;
+    private int algorithmId;
     private String function;
     private int auxInfo;
     private String initialUnit;
-    private String finalUnit;
+    private String resultUnit;
     
     private ConversionAlgorithm() {
 
     }
 
     /**
-     * @param identifier
+     * @param algorithmId
      * @param function
      * @param auxInfo
      * @param initialUnit
-     * @param finalUnit
+     * @param resultUnit
      */
-    private ConversionAlgorithm(int identifier, String function, int auxInfo,
-	    String initialUnit, String finalUnit) {
-	this.identifier = identifier;
+    private ConversionAlgorithm(int algorithmId, String function, int auxInfo,
+	    String initialUnit, String resultUnit) {
+	this.algorithmId = algorithmId;
 	this.function = function;
 	this.auxInfo = auxInfo;
 	this.initialUnit = initialUnit;
-	this.finalUnit = finalUnit;
+	this.resultUnit = resultUnit;
     }
 
     /**
-     * @return the identifier
+     * @return the algorithmId
      */
-    public int getIdentifier() {
-	return identifier;
+    public int getalgorithmId() {
+	return algorithmId;
     }
 
     /**
@@ -63,10 +63,10 @@ public class ConversionAlgorithm {
     }
 
     /**
-     * @return the finalUnit
+     * @return the resultUnit
      */
-    public String getFinalUnit() {
-        return finalUnit;
+    public String getresultUnit() {
+        return resultUnit;
     }
 
     /*
@@ -81,7 +81,7 @@ public class ConversionAlgorithm {
 	result = prime * result + auxInfo;
 	result = prime * result
 		+ ((function == null) ? 0 : function.hashCode());
-	result = prime * result + identifier;
+	result = prime * result + algorithmId;
 	return result;
     }
 
@@ -106,42 +106,42 @@ public class ConversionAlgorithm {
 		return false;
 	} else if (!function.equals(other.function))
 	    return false;
-	if (identifier != other.identifier)
+	if (algorithmId != other.algorithmId)
 	    return false;
 	return true;
     }
     
     public static class ConversionAlogrithmBuilder {
-	private int identifier;
+	private int algorithmId;
 	private String function;
 	private int auxInfo = 0;
 	private String initialUnit;
-	private String finalUnit;
+	private String resultUnit;
 
 	/**
-	 * @param identifier
+	 * @param algorithmId
 	 * @param function
 	 */
-	private ConversionAlogrithmBuilder(int identifier, String function) {
-	    this.identifier = identifier;
+	private ConversionAlogrithmBuilder(int algorithmId, String function) {
+	    this.algorithmId = algorithmId;
 	    this.function = function;
 	}
 
 	/**
-	 * @param identifier
+	 * @param algorithmId
 	 */
-	private ConversionAlogrithmBuilder(int identifier) {
-	    this.identifier = identifier;
+	private ConversionAlogrithmBuilder(int algorithmId) {
+	    this.algorithmId = algorithmId;
 	}
 
 	public static ConversionAlogrithmBuilder conversionAlgorithm(
-		int identifier) {
-	    return new ConversionAlogrithmBuilder(identifier);
+		int algorithmId) {
+	    return new ConversionAlogrithmBuilder(algorithmId);
 	}
 
 	public static ConversionAlogrithmBuilder conversionAlgorithm(
-		int identifier, String function) {
-	    return new ConversionAlogrithmBuilder(identifier, function);
+		int algorithmId, String function) {
+	    return new ConversionAlogrithmBuilder(algorithmId, function);
 	}
 
 	public ConversionAlogrithmBuilder withFunction(String function) {
@@ -159,14 +159,14 @@ public class ConversionAlgorithm {
 	    return this;
 	}
 
-	public ConversionAlogrithmBuilder withfinalUnit(String finalUnit) {
-	    this.finalUnit = finalUnit;
+	public ConversionAlogrithmBuilder withresultUnit(String resultUnit) {
+	    this.resultUnit = resultUnit;
 	    return this;
 	}
 
 	public ConversionAlgorithm build() {
-	    return new ConversionAlgorithm(identifier, function, auxInfo,
-		    initialUnit, finalUnit);
+	    return new ConversionAlgorithm(algorithmId, function, auxInfo,
+		    initialUnit, resultUnit);
 	}
     }
 

@@ -6,9 +6,9 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class MeasurementData {
+public class MeasuredData {
 
-    public static class MeasurementDataBuilder {
+    public static class MeasuredDataBuilder {
 	private List<String> direction = Collections.emptyList();
 	private List<Double> current = Collections.emptyList();
 	private List<Double> currentError = Collections.emptyList();
@@ -17,23 +17,23 @@ public class MeasurementData {
 	private List<Double> fieldError = Collections.emptyList();
 	private String fieldUnit;
 	private List<Double> magneticLength = Collections.emptyList();
-	private Double averageMagneticLength;
+	private Double averageLength;
 	private List<Double> runNumber = Collections.emptyList();
 	private int serialNumber;
 
-	private MeasurementDataBuilder() {
+	private MeasuredDataBuilder() {
 
 	}
 
-	public static MeasurementDataBuilder magnetMeasurements() {
-	    return new MeasurementDataBuilder();
+	public static MeasuredDataBuilder magnetMeasurements() {
+	    return new MeasuredDataBuilder();
 	}
 
 	/**
 	 * @param direction
 	 *            the direction to set
 	 */
-	public MeasurementDataBuilder Direction(List<String> direction) {
+	public MeasuredDataBuilder Direction(List<String> direction) {
 	    this.direction = direction;
 	    return this;
 	}
@@ -42,7 +42,7 @@ public class MeasurementData {
 	 * @param current
 	 *            the current to set
 	 */
-	public MeasurementDataBuilder Current(List<Double> current) {
+	public MeasuredDataBuilder Current(List<Double> current) {
 	    this.current = current;
 	    return this;
 	}
@@ -51,7 +51,7 @@ public class MeasurementData {
 	 * @param currentError
 	 *            the currentError to set
 	 */
-	public MeasurementDataBuilder CurrentError(
+	public MeasuredDataBuilder CurrentError(
 		List<Double> currentError) {
 	    this.currentError = currentError;
 	    return this;
@@ -61,7 +61,7 @@ public class MeasurementData {
 	 * @param currentUnit
 	 *            the currentUnit to set
 	 */
-	public MeasurementDataBuilder CurrentUnit(String currentUnit) {
+	public MeasuredDataBuilder CurrentUnit(String currentUnit) {
 	    this.currentUnit = currentUnit;
 	    return this;
 	}
@@ -70,7 +70,7 @@ public class MeasurementData {
 	 * @param field
 	 *            the field to set
 	 */
-	public MeasurementDataBuilder Field(List<Double> field) {
+	public MeasuredDataBuilder Field(List<Double> field) {
 	    this.field = field;
 	    return this;
 	}
@@ -79,7 +79,7 @@ public class MeasurementData {
 	 * @param fieldError
 	 *            the fieldError to set
 	 */
-	public MeasurementDataBuilder FieldError(List<Double> fieldError) {
+	public MeasuredDataBuilder FieldError(List<Double> fieldError) {
 	    this.fieldError = fieldError;
 	    return this;
 	}
@@ -88,7 +88,7 @@ public class MeasurementData {
 	 * @param fieldUnit
 	 *            the fieldUnit to set
 	 */
-	public MeasurementDataBuilder FieldUnit(String fieldUnit) {
+	public MeasuredDataBuilder FieldUnit(String fieldUnit) {
 	    this.fieldUnit = fieldUnit;
 	    return this;
 	}
@@ -97,19 +97,19 @@ public class MeasurementData {
 	 * @param magneticLength
 	 *            the magneticLength to set
 	 */
-	public MeasurementDataBuilder MagneticLength(
+	public MeasuredDataBuilder MagneticLength(
 		List<Double> magneticLength) {
 	    this.magneticLength = magneticLength;
 	    return this;
 	}
 
 	/**
-	 * @param averageMagneticLength
-	 *            the averageMagneticLength to set
+	 * @param averageLength
+	 *            the averageLength to set
 	 */
-	public MeasurementDataBuilder AverageMagneticLength(
-		Double averageMagneticLength) {
-	    this.averageMagneticLength = averageMagneticLength;
+	public MeasuredDataBuilder averageLength(
+		Double averageLength) {
+	    this.averageLength = averageLength;
 	    return this;
 	}
 
@@ -117,7 +117,7 @@ public class MeasurementData {
 	 * @param runNumber
 	 *            the runNumber to set
 	 */
-	public MeasurementDataBuilder RunNumber(List<Double> runNumber) {
+	public MeasuredDataBuilder RunNumber(List<Double> runNumber) {
 	    this.runNumber = runNumber;
 	    return this;
 	}
@@ -126,16 +126,16 @@ public class MeasurementData {
 	 * @param serialNumber
 	 *            the serialNumber to set
 	 */
-	public MeasurementDataBuilder SerialNumber(int serialNumber) {
+	public MeasuredDataBuilder SerialNumber(int serialNumber) {
 	    this.serialNumber = serialNumber;
 	    return this;
 	}
 
-	public MeasurementData build() {
-	    return new MeasurementData(this.direction, this.current,
+	public MeasuredData build() {
+	    return new MeasuredData(this.direction, this.current,
 		    this.currentError, this.currentUnit, this.field,
 		    this.fieldError, this.fieldUnit, this.magneticLength,
-		    this.averageMagneticLength, this.runNumber,
+		    this.averageLength, this.runNumber,
 		    this.serialNumber);
 	}
     }
@@ -148,11 +148,11 @@ public class MeasurementData {
     private List<Double> fieldError;
     private String fieldUnit;
     private List<Double> magneticLength;
-    private Double averageMagneticLength;
+    private Double averageLength;
     private List<Double> runNumber;
     private int serialNumber;
 
-    private MeasurementData() {
+    private MeasuredData() {
     }
 
     /**
@@ -163,14 +163,14 @@ public class MeasurementData {
      * @param fieldError
      * @param fieldUnit
      * @param magneticLength
-     * @param averageMagneticLength
+     * @param averageLength
      * @param runNumber
      * @param serialNumber
      */
-    private MeasurementData(List<String> direction, List<Double> current,
+    private MeasuredData(List<String> direction, List<Double> current,
 	    List<Double> currentError, String currentUnit, List<Double> field,
 	    List<Double> fieldError, String fieldUnit,
-	    List<Double> magneticLength, Double averageMagneticLength,
+	    List<Double> magneticLength, Double averageLength,
 	    List<Double> runNumber, int serialNumber) {
 	this.direction = direction;
 	this.current = current;
@@ -180,7 +180,7 @@ public class MeasurementData {
 	this.fieldError = fieldError;
 	this.fieldUnit = fieldUnit;
 	this.magneticLength = magneticLength;
-	this.averageMagneticLength = averageMagneticLength;
+	this.averageLength = averageLength;
 	this.runNumber = runNumber;
 	this.serialNumber = serialNumber;
     }
@@ -235,10 +235,10 @@ public class MeasurementData {
     }
 
     /**
-     * @return the averageMagneticLength
+     * @return the averageLength
      */
-    public Double getAverageMagneticLength() {
-	return averageMagneticLength;
+    public Double getaverageLength() {
+	return averageLength;
     }
 
     /**
@@ -271,7 +271,7 @@ public class MeasurementData {
 	int result = 1;
 	result = prime
 		* result
-		+ ((averageMagneticLength == null) ? 0 : averageMagneticLength
+		+ ((averageLength == null) ? 0 : averageLength
 			.hashCode());
 	result = prime * result + ((current == null) ? 0 : current.hashCode());
 	result = prime * result
@@ -304,11 +304,11 @@ public class MeasurementData {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	MeasurementData other = (MeasurementData) obj;
-	if (averageMagneticLength == null) {
-	    if (other.averageMagneticLength != null)
+	MeasuredData other = (MeasuredData) obj;
+	if (averageLength == null) {
+	    if (other.averageLength != null)
 		return false;
-	} else if (!averageMagneticLength.equals(other.averageMagneticLength))
+	} else if (!averageLength.equals(other.averageLength))
 	    return false;
 	if (current == null) {
 	    if (other.current != null)

@@ -5,7 +5,7 @@ package org.bnl.gov.unitconversion;
 
 import static org.bnl.gov.unitconversion.Conversion.ConversionDataBuilder.conversionDataOfType;
 import static org.bnl.gov.unitconversion.Device.DeviceBuilder.device;
-import static org.bnl.gov.unitconversion.MeasurementData.MeasurementDataBuilder.magnetMeasurements;
+import static org.bnl.gov.unitconversion.MeasuredData.MeasuredDataBuilder.magnetMeasurements;
 import static org.bnl.gov.unitconversion.ConversionAlgorithm.ConversionAlogrithmBuilder.*;
 
 import java.io.File;
@@ -109,7 +109,7 @@ public class DataTypeTest {
 		"Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn",
 		"Dn");
 	List<Double> magneticLength = Collections.emptyList();
-	MeasurementData measurementData = magnetMeasurements().Current(current)
+	MeasuredData measurementData = magnetMeasurements().Current(current)
 		.CurrentUnit("A").Field(field).FieldUnit("T-m")
 		.Direction(direction).MagneticLength(magneticLength).build();
 	try {
@@ -119,8 +119,8 @@ public class DataTypeTest {
 	    objectMapper.writeValue(jsonMagnetMeasurementData, measurementData);
 	    System.out
 		    .println(objectMapper.writeValueAsString(measurementData));
-	    MeasurementData parsedMagnetMeasurementData = objectMapper
-		    .readValue(jsonMagnetMeasurementData, MeasurementData.class);
+	    MeasuredData parsedMagnetMeasurementData = objectMapper
+		    .readValue(jsonMagnetMeasurementData, MeasuredData.class);
 	    Assert.assertEquals("Failed to correctly parse Device object ",
 		    measurementData, parsedMagnetMeasurementData);
 	} catch (Exception e) {
@@ -245,25 +245,25 @@ public class DataTypeTest {
 		"Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn",
 		"Dn");
 	List<Double> magneticLength = Collections.emptyList();
-	MeasurementData measurementData = magnetMeasurements().Current(current)
+	MeasuredData measurementData = magnetMeasurements().Current(current)
 		.CurrentUnit("A").Field(field).FieldUnit("T-m")
 		.Direction(direction).MagneticLength(magneticLength).build();
-	Map<String, ConversionAlgorithm> conversionFunctions = new HashMap<String, ConversionAlgorithm>();
-	conversionFunctions
+	Map<String, ConversionAlgorithm> conversions = new HashMap<String, ConversionAlgorithm>();
+	conversions
 		.put("i2b",
 			conversionAlgorithm(1,
 				"-4.88005454146e-07*input**2 + 0.0010428585052*input  -0.00105886879746")
 				.build());
-	conversionFunctions.put("b2k",
+	conversions.put("b2k",
 		conversionAlgorithm(0, "input/(0.0175*3.335646*energy)")
 			.withAuxInfo(2).build());
 	/**
 	 * A Single ConversionData object
 	 */
 	Conversion conversion = conversionDataOfType()
-		.withMeasurementData(measurementData).withDefaultEnergy(3.0)
-		.withMagneticLengthDesign(0.35)
-		.withConversionFunctions(conversionFunctions).build();
+		.withmeasuredData(measurementData).withDefaultEnergy(3.0)
+		.withDesignLength(0.35)
+		.withConversions(conversions).build();
 
 	try {
 	    ObjectMapper objectMapper = new ObjectMapper();
@@ -328,8 +328,8 @@ public class DataTypeTest {
 	 * 
 	 * "i2b": [0, "0.000228046038239*input + 0.000113748"] } } } }
 	 */
-	final Map<String, ConversionAlgorithm> conversionFunctions1 = new HashMap<>();
-	conversionFunctions1.put(
+	final Map<String, ConversionAlgorithm> conversions1 = new HashMap<>();
+	conversions1.put(
 		"i2b",
 		conversionAlgorithm(0,
 			"-0.000423222575196*input -0.00021717376728").build());
@@ -337,8 +337,8 @@ public class DataTypeTest {
 	map.put("municonvChain", new HashMap<String, Conversion>() {
 	    {
 		put("standard",
-			conversionDataOfType().withConversionFunctions(
-				conversionFunctions1).build());
+			conversionDataOfType().withConversions(
+				conversions1).build());
 	    }
 	});
 	List<Double> LNSO5current = Arrays.asList(0.0, 5.0, 10.0, 15.0, 20.0,
@@ -352,11 +352,11 @@ public class DataTypeTest {
 		-0.009285, -0.010423, -0.011546, -0.012694, -0.013817,
 		-0.014941, -0.016098, -0.017217, -0.018358, -0.019476,
 		-0.020613, -0.021764, -0.022898);
-	final MeasurementData magnetMeasurementData2 = magnetMeasurements()
+	final MeasuredData magnetMeasuredData2 = magnetMeasurements()
 		.Current(LNSO5current).CurrentUnit("A").Field(LNSO5field)
 		.FieldUnit("T").Direction(LNSO5direction).build();
-	final Map<String, ConversionAlgorithm> conversionFunctions2 = new HashMap<String, ConversionAlgorithm>();
-	conversionFunctions2.put("i2b",
+	final Map<String, ConversionAlgorithm> conversions2 = new HashMap<String, ConversionAlgorithm>();
+	conversions2.put("i2b",
 		conversionAlgorithm(0, "0.000228046038239*input + 0.000113748")
 			.build());
 
@@ -367,10 +367,10 @@ public class DataTypeTest {
 	    {
 		put("standard",
 			conversionDataOfType()
-				.withMeasurementData(magnetMeasurementData2)
+				.withmeasuredData(magnetMeasuredData2)
 				.withDefaultEnergy(3.0)
-				.withMagneticLengthDesign(0.35)
-				.withConversionFunctions(conversionFunctions2)
+				.withDesignLength(0.35)
+				.withConversions(conversions2)
 				.build());
 	    }
 	});
@@ -459,45 +459,45 @@ public class DataTypeTest {
 				.build());
 	complexMap.put("municonv", new HashMap<String, Conversion>() {
 	    {
-		put("Complex:1",
+		put("complex:1",
 			conversionDataOfType()
-				.withMeasurementData(
+				.withmeasuredData(
 					magnetMeasurements().FieldUnit("T")
 						.CurrentUnit("A").build())
-				.withConversionFunctions(
+				.withConversions(
 					conversionFunctionsCmplx1)
 				.description(
 					"Dipole field component for a combined function magnet")
 				.build());
-		put("Complex:2",
+		put("complex:2",
 			conversionDataOfType()
-				.withMeasurementData(
+				.withmeasuredData(
 					magnetMeasurements().FieldUnit("T/m")
 						.CurrentUnit("A").build())
-				.withConversionFunctions(
+				.withConversions(
 					conversionFunctionsCmplx2)
 				.description(
 					"Quadrupole field component for a combined function magnet")
 				.build());
-		put("Complex:3",
+		put("complex:3",
 			conversionDataOfType()
-				.withMeasurementData(
+				.withmeasuredData(
 					magnetMeasurements().FieldUnit("T/m^2")
 						.CurrentUnit("A").build())
-				.withConversionFunctions(
+				.withConversions(
 					conversionFunctionsCmplx3)
 				.description(
 					"Sextupole field component for a combined function magnet")
 				.build());
 		put("standard",
 			conversionDataOfType()
-				.withMeasurementData(
+				.withmeasuredData(
 					magnetMeasurements().FieldUnit("T")
 						.CurrentUnit("A")
 						.SerialNumber(24).build())
-				.withConversionFunctions(
+				.withConversions(
 					conversionFunctionsStandard)
-				.withMagneticLengthDesign(1.3).build());
+				.withDesignLength(1.3).build());
 	    }
 	});
 	try {
