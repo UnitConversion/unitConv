@@ -25,7 +25,7 @@ public class Conversion {
 
 	private Double realEnergy;
 
-	private Map<String, ConversionAlgorithm> conversions = Collections
+	private Map<String, ConversionAlgorithm> algorithms = Collections
 		.emptyMap();
 
 	private String description;
@@ -66,9 +66,9 @@ public class Conversion {
 	    return this;
 	}
 
-	public ConversionDataBuilder withConversions(
-		Map<String, ConversionAlgorithm> conversions) {
-	    this.conversions = conversions;
+	public ConversionDataBuilder withAlgorithms(
+		Map<String, ConversionAlgorithm> algorithms) {
+	    this.algorithms = algorithms;
 	    return this;
 	}
 
@@ -80,7 +80,7 @@ public class Conversion {
 
 	public Conversion build() {
 	    return new Conversion(measuredData, designLength,
-		    defaultEnergy, realEnergy, conversions,
+		    defaultEnergy, realEnergy, algorithms,
 		    description, conversionResult);
 	}
 
@@ -94,7 +94,7 @@ public class Conversion {
 
     private Double realEnergy;
 
-    private Map<String, ConversionAlgorithm> conversions;
+    private Map<String, ConversionAlgorithm> algorithms;
 
     private String description;
 
@@ -117,13 +117,13 @@ public class Conversion {
     private Conversion(MeasuredData measuredData,
 	    Double designLength, Double defaultEnergy,
 	    Double realEnergy,
-	    Map<String, ConversionAlgorithm> conversions,
+	    Map<String, ConversionAlgorithm> algorithms,
 	    String description, ConversionResult conversionResult) {
 	this.measuredData = measuredData;
 	this.designLength = designLength;
 	this.defaultEnergy = defaultEnergy;
 	this.realEnergy = realEnergy;
-	this.conversions = conversions;
+	this.algorithms = algorithms;
 	this.description = description;
 	this.conversionResult = conversionResult;
     }
@@ -160,8 +160,8 @@ public class Conversion {
     /**
      * @return the conversions
      */
-    public Map<String, ConversionAlgorithm> getconversions() {
-	return Collections.unmodifiableMap(conversions);
+    public Map<String, ConversionAlgorithm> getAlgorithms() {
+	return Collections.unmodifiableMap(algorithms);
     }
 
     /**
@@ -189,7 +189,7 @@ public class Conversion {
 	int result = 1;
 	result = prime
 		* result
-		+ ((conversions == null) ? 0 : conversions
+		+ ((algorithms == null) ? 0 : algorithms
 			.hashCode());
 	result = prime
 		* result
@@ -223,10 +223,10 @@ public class Conversion {
 	if (getClass() != obj.getClass())
 	    return false;
 	Conversion other = (Conversion) obj;
-	if (conversions == null) {
-	    if (other.conversions != null)
+	if (algorithms == null) {
+	    if (other.algorithms != null)
 		return false;
-	} else if (!conversions.equals(other.conversions))
+	} else if (!algorithms.equals(other.algorithms))
 	    return false;
 	if (conversionResult == null) {
 	    if (other.conversionResult != null)

@@ -263,7 +263,7 @@ public class DataTypeTest {
 	Conversion conversion = conversionDataOfType()
 		.withmeasuredData(measurementData).withDefaultEnergy(3.0)
 		.withDesignLength(0.35)
-		.withConversions(conversions).build();
+		.withAlgorithms(conversions).build();
 
 	try {
 	    ObjectMapper objectMapper = new ObjectMapper();
@@ -337,7 +337,7 @@ public class DataTypeTest {
 	map.put("municonvChain", new HashMap<String, Conversion>() {
 	    {
 		put("standard",
-			conversionDataOfType().withConversions(
+			conversionDataOfType().withAlgorithms(
 				conversions1).build());
 	    }
 	});
@@ -370,7 +370,7 @@ public class DataTypeTest {
 				.withmeasuredData(magnetMeasuredData2)
 				.withDefaultEnergy(3.0)
 				.withDesignLength(0.35)
-				.withConversions(conversions2)
+				.withAlgorithms(conversions2)
 				.build());
 	    }
 	});
@@ -464,7 +464,7 @@ public class DataTypeTest {
 				.withmeasuredData(
 					magnetMeasurements().FieldUnit("T")
 						.CurrentUnit("A").build())
-				.withConversions(
+				.withAlgorithms(
 					conversionFunctionsCmplx1)
 				.description(
 					"Dipole field component for a combined function magnet")
@@ -474,7 +474,7 @@ public class DataTypeTest {
 				.withmeasuredData(
 					magnetMeasurements().FieldUnit("T/m")
 						.CurrentUnit("A").build())
-				.withConversions(
+				.withAlgorithms(
 					conversionFunctionsCmplx2)
 				.description(
 					"Quadrupole field component for a combined function magnet")
@@ -484,7 +484,7 @@ public class DataTypeTest {
 				.withmeasuredData(
 					magnetMeasurements().FieldUnit("T/m^2")
 						.CurrentUnit("A").build())
-				.withConversions(
+				.withAlgorithms(
 					conversionFunctionsCmplx3)
 				.description(
 					"Sextupole field component for a combined function magnet")
@@ -495,7 +495,7 @@ public class DataTypeTest {
 					magnetMeasurements().FieldUnit("T")
 						.CurrentUnit("A")
 						.SerialNumber(24).build())
-				.withConversions(
+				.withAlgorithms(
 					conversionFunctionsStandard)
 				.withDesignLength(1.3).build());
 	    }
