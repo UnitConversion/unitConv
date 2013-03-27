@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -20,7 +19,6 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
@@ -83,7 +81,7 @@ public class ConversionClient {
 	}
     }
 
-    public Map<String, Conversion> getConversionInfo(String name) throws JsonParseException, JsonMappingException, ClientHandlerException, UniformInterfaceException, IOException {
+    public Map<String, Map<String, Conversion>> getConversionInfo(String name) throws JsonParseException, JsonMappingException, ClientHandlerException, UniformInterfaceException, IOException {
 	MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
 	queryParams.add("name", name);
 	ClientResponse clientResponse = service.path("conversion")
@@ -91,7 +89,6 @@ public class ConversionClient {
 		.get(ClientResponse.class);
 	if (clientResponse.getStatus() < 300) {
 	    ObjectMapper mapper = new ObjectMapper();
-//	    String src = clientResponse.getEntity(String.class);
 	    String src = "{\"LN-SO5\":{\"municonv_chain\":{\"standard\":{\"raw\":\"(-0.000456230223511*I+-0.000234111416058)*(1-0.0723486665586)\",\"i2b\":[0,\"-0.000423222575196*input -0.00021717376728\"]}}}}";
 	    System.out.println(src);
 	    JsonFactory f = new JsonFactory();

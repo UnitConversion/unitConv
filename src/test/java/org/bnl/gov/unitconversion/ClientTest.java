@@ -6,18 +6,14 @@ package org.bnl.gov.unitconversion;
 import static org.bnl.gov.unitconversion.Device.DeviceBuilder.device;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import com.sun.jersey.api.client.Client;
 
 /**
  * @author shroffk
@@ -40,7 +36,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testFindSystems() {
+    public void testListSystems() {
 	Collection<String> testSystems = Arrays.asList("Storage Ring", "Linac",
 		"LBT", "Booster", "BST");
 	ConversionClient client = new ConversionClient(
@@ -50,8 +46,7 @@ public class ClientTest {
 	    systems = client.listSystems();
 	    Assert.assertEquals(testSystems, systems);
 	} catch (IOException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    Assert.fail(e.getMessage());
 	}
     }
 
@@ -90,10 +85,9 @@ public class ClientTest {
 	
 	try {
 	    devices = client.findDevices("SH*G2C30A");
-	    Assert.assertTrue("Failed to find device", devices.size() == 3);
+	    Assert.assertTrue("Failed to find devices", devices.size() == 3);
 	} catch (IOException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    Assert.fail(e.getMessage());
 	}
 	
 
@@ -104,7 +98,7 @@ public class ClientTest {
 	ConversionClient client = new ConversionClient(
 		"http://localhost:8000/magnets");
 	try {
-	    Map<String, Conversion> info = client.getConversionInfo("LN-SO5");
+	    Map<String, Map<String, Conversion>> info = client.getConversionInfo("LN-SO5");
 	} catch (Exception e) {
 	    Assert.fail(e.getMessage());
 	}

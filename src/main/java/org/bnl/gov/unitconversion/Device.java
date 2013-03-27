@@ -3,7 +3,8 @@
  */
 package org.bnl.gov.unitconversion;
 
-import javax.ws.rs.core.MultivaluedMap;
+import java.util.Map;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -13,7 +14,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * 
  */
 @XmlRootElement
-public class Device {    
+public class Device {
 
     public static class DeviceBuilder {
 
@@ -24,7 +25,7 @@ public class Device {
 	private String typeDescription;
 	private String vendor;
 	private int serialNumber;
-	private MultivaluedMap<String, Conversion> conversionInfo;
+	private Map<String, Map<String, Conversion>> conversionInfo;
 
 	/**
 	 * 
@@ -70,13 +71,14 @@ public class Device {
 	    this.vendor = vendor;
 	    return this;
 	}
-	
-	public DeviceBuilder serialNumber(int serialNumber){
+
+	public DeviceBuilder serialNumber(int serialNumber) {
 	    this.serialNumber = serialNumber;
 	    return this;
 	}
-	
-	public DeviceBuilder conversionInfo(MultivaluedMap<String, Conversion> conversionInfo){
+
+	public DeviceBuilder conversionInfo(
+		Map<String, Map<String, Conversion>> conversionInfo) {
 	    this.conversionInfo = conversionInfo;
 	    return this;
 	}
@@ -99,11 +101,12 @@ public class Device {
     @JsonProperty("type_description")
     private String typeDescription;
     private String vendor;
-    
-    private MultivaluedMap<String, Conversion> conversionInfo;
 
-    private Device(){
+    private Map<String, Map<String, Conversion>> conversionInfo;
+
+    private Device() {
     }
+
     /**
      * @param name
      * @param system
@@ -113,7 +116,9 @@ public class Device {
      * @param vendor
      */
     private Device(String name, String system, int installId,
-	    String componentTypeName, String typeDescription, String vendor, int serialNumber, MultivaluedMap<String, Conversion> conversionInfo) {
+	    String componentTypeName, String typeDescription, String vendor,
+	    int serialNumber,
+	    Map<String, Map<String, Conversion>> conversionInfo) {
 	this.name = name;
 	this.system = system;
 	this.installId = installId;
@@ -128,51 +133,54 @@ public class Device {
      * @return the name
      */
     public String getName() {
-        return name;
+	return name;
     }
 
     /**
      * @return the system
      */
     public String getSystem() {
-        return system;
+	return system;
     }
 
     /**
      * @return the installId
      */
     public int getInstallId() {
-        return installId;
+	return installId;
     }
 
     /**
      * @return the serialNumber
      */
     public int getSerialNumber() {
-        return serialNumber;
+	return serialNumber;
     }
-    
+
     /**
      * @return the componentTypeName
      */
     public String getComponentTypeName() {
-        return componentTypeName;
+	return componentTypeName;
     }
 
     /**
      * @return the typeDescription
      */
     public String getTypeDescription() {
-        return typeDescription;
+	return typeDescription;
     }
 
     /**
      * @return the vendor
      */
     public String getVendor() {
-        return vendor;
+	return vendor;
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -194,7 +202,10 @@ public class Device {
 	result = prime * result + ((vendor == null) ? 0 : vendor.hashCode());
 	return result;
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -242,6 +253,5 @@ public class Device {
 	    return false;
 	return true;
     }
-    
-    
+
 }

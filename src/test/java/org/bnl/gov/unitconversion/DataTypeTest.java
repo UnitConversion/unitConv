@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -328,7 +329,7 @@ public class DataTypeTest {
 	 * 
 	 * "i2b": [0, "0.000228046038239*input + 0.000113748"] } } } }
 	 */
-	final Map<String, ConversionAlgorithm> conversionFunctions1 = new HashMap<>();
+	final Map<String, ConversionAlgorithm> conversionFunctions1 = new HashMap<String, ConversionAlgorithm>();
 	conversionFunctions1.put(
 		"i2b",
 		conversionAlgorithm(0,
@@ -513,6 +514,8 @@ public class DataTypeTest {
 	    Assert.assertEquals(
 		    "Failed to correctly parse ConversionData ComplexMap object ",
 		    complexMap, parsedComplexMap);
+	    Assert.assertEquals(parsedComplexMap.get("municonv"),
+		    complexMap.get("municonv"));
 	} catch (Exception e) {
 	    Assert.fail(e.getMessage());
 	}
