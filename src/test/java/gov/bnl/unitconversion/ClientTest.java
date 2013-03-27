@@ -1,9 +1,13 @@
 /**
  * 
  */
-package org.bnl.gov.unitconversion;
+package gov.bnl.unitconversion;
 
-import static org.bnl.gov.unitconversion.Device.DeviceBuilder.device;
+import static gov.bnl.unitconversion.Device.DeviceBuilder.device;
+
+import gov.bnl.unitconversion.Conversion;
+import gov.bnl.unitconversion.ConversionClient;
+import gov.bnl.unitconversion.Device;
 
 import java.io.IOException;
 import java.util.Arrays;

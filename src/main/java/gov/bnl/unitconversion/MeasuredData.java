@@ -1,4 +1,4 @@
-package org.bnl.gov.unitconversion;
+package gov.bnl.unitconversion;
 
 import java.util.Collections;
 import java.util.List;

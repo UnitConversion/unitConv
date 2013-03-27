@@ -1,12 +1,17 @@
 /**
  * 
  */
-package org.bnl.gov.unitconversion;
+package gov.bnl.unitconversion;
 
-import static org.bnl.gov.unitconversion.Conversion.ConversionDataBuilder.conversionDataOfType;
-import static org.bnl.gov.unitconversion.Device.DeviceBuilder.device;
-import static org.bnl.gov.unitconversion.MeasuredData.MeasuredDataBuilder.magnetMeasurements;
-import static org.bnl.gov.unitconversion.ConversionAlgorithm.ConversionAlogrithmBuilder.*;
+import static gov.bnl.unitconversion.Conversion.ConversionDataBuilder.conversionDataOfType;
+import static gov.bnl.unitconversion.ConversionAlgorithm.ConversionAlogrithmBuilder.*;
+import static gov.bnl.unitconversion.Device.DeviceBuilder.device;
+import static gov.bnl.unitconversion.MeasuredData.MeasuredDataBuilder.magnetMeasurements;
+
+import gov.bnl.unitconversion.Conversion;
+import gov.bnl.unitconversion.ConversionAlgorithm;
+import gov.bnl.unitconversion.Device;
+import gov.bnl.unitconversion.MeasuredData;
 
 import java.io.File;
 import java.util.Arrays;

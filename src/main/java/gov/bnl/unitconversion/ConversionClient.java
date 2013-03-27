@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.bnl.gov.unitconversion;
+package gov.bnl.unitconversion;
 
 import java.io.IOException;
 import java.util.Arrays;
