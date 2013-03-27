@@ -329,13 +329,8 @@ public class DataTypeTest {
 	 * 
 	 * "i2b": [0, "0.000228046038239*input + 0.000113748"] } } } }
 	 */
-<<<<<<< HEAD
 	final Map<String, ConversionAlgorithm> conversionFunctions1 = new HashMap<String, ConversionAlgorithm>();
 	conversionFunctions1.put(
-=======
-	final Map<String, ConversionAlgorithm> conversions1 = new HashMap<>();
-	conversions1.put(
->>>>>>> branch 'master' of git@github.com:UnitConversion/unitConv.git
 		"i2b",
 		conversionAlgorithm(0,
 			"-0.000423222575196*input -0.00021717376728").build());
@@ -344,7 +339,7 @@ public class DataTypeTest {
 	    {
 		put("standard",
 			conversionDataOfType().withAlgorithms(
-				conversions1).build());
+				conversionFunctions1).build());
 	    }
 	});
 	List<Double> LNSO5current = Arrays.asList(0.0, 5.0, 10.0, 15.0, 20.0,
