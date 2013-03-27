@@ -21,6 +21,7 @@ public class Device {
 	private String name;
 	private String system;
 	private int installId;
+	private int inventoryId;
 	private String componentTypeName;
 	private String typeDescription;
 	private String vendor;
@@ -57,6 +58,11 @@ public class Device {
 	    return this;
 	}
 
+	public DeviceBuilder inventoryId(int inventoryId) {
+	    this.inventoryId = inventoryId;
+	    return this;
+	}
+
 	public DeviceBuilder componentTypeName(String componentTypeName) {
 	    this.componentTypeName = componentTypeName;
 	    return this;
@@ -84,7 +90,7 @@ public class Device {
 	}
 
 	public Device build() {
-	    return new Device(name, system, installId, componentTypeName,
+	    return new Device(name, system, installId, inventoryId, componentTypeName,
 		    typeDescription, vendor, serialNumber, conversionInfo);
 	}
 
@@ -94,6 +100,8 @@ public class Device {
     private String system;
     @JsonProperty("install_id")
     private int installId;
+    @JsonProperty("inventory_id")
+    private int inventoryId;
     @JsonProperty("serial_number")
     private int serialNumber;
     @JsonProperty("cmpnt_type_name")
@@ -115,13 +123,14 @@ public class Device {
      * @param typeDescription
      * @param vendor
      */
-    private Device(String name, String system, int installId,
+    private Device(String name, String system, int installId, int inventoryId,
 	    String componentTypeName, String typeDescription, String vendor,
 	    int serialNumber,
 	    Map<String, Map<String, Conversion>> conversionInfo) {
 	this.name = name;
 	this.system = system;
 	this.installId = installId;
+	this.inventoryId = inventoryId;
 	this.componentTypeName = componentTypeName;
 	this.typeDescription = typeDescription;
 	this.vendor = vendor;
@@ -148,6 +157,13 @@ public class Device {
      */
     public int getInstallId() {
 	return installId;
+    }
+
+    /**
+     * @return the inventoryId
+     */
+    public int getInventoryId() {
+        return inventoryId;
     }
 
     /**
@@ -194,6 +210,7 @@ public class Device {
 	result = prime * result
 		+ ((conversionInfo == null) ? 0 : conversionInfo.hashCode());
 	result = prime * result + installId;
+	result = prime * result + inventoryId;
 	result = prime * result + ((name == null) ? 0 : name.hashCode());
 	result = prime * result + serialNumber;
 	result = prime * result + ((system == null) ? 0 : system.hashCode());
@@ -228,6 +245,8 @@ public class Device {
 	} else if (!conversionInfo.equals(other.conversionInfo))
 	    return false;
 	if (installId != other.installId)
+	    return false;
+	if (inventoryId != other.inventoryId)
 	    return false;
 	if (name == null) {
 	    if (other.name != null)

@@ -17,15 +17,15 @@ public class Conversion {
 
     public static class ConversionDataBuilder {
 
-	private MeasurementData measurementData;
+	private MeasuredData measuredData;
 
 	// These are design values
-	private Double magneticLengthDesign;
+	private Double designLength;
 	private Double defaultEnergy;
 
 	private Double realEnergy;
 
-	private Map<String, ConversionAlgorithm> conversionFunctions = Collections
+	private Map<String, ConversionAlgorithm> algorithms = Collections
 		.emptyMap();
 
 	private String description;
@@ -39,15 +39,15 @@ public class Conversion {
 	    return new ConversionDataBuilder();
 	}
 
-	public ConversionDataBuilder withMeasurementData(
-		MeasurementData measurementData) {
-	    this.measurementData = measurementData;
+	public ConversionDataBuilder withmeasuredData(
+		MeasuredData measuredData) {
+	    this.measuredData = measuredData;
 	    return this;
 	}
 
-	public ConversionDataBuilder withMagneticLengthDesign(
-		Double magneticLengthDesign) {
-	    this.magneticLengthDesign = magneticLengthDesign;
+	public ConversionDataBuilder withDesignLength(
+		Double designLength) {
+	    this.designLength = designLength;
 	    return this;
 	}
 
@@ -66,9 +66,9 @@ public class Conversion {
 	    return this;
 	}
 
-	public ConversionDataBuilder withConversionFunctions(
-		Map<String, ConversionAlgorithm> conversionFunctions) {
-	    this.conversionFunctions = conversionFunctions;
+	public ConversionDataBuilder withAlgorithms(
+		Map<String, ConversionAlgorithm> algorithms) {
+	    this.algorithms = algorithms;
 	    return this;
 	}
 
@@ -79,22 +79,22 @@ public class Conversion {
 	}
 
 	public Conversion build() {
-	    return new Conversion(measurementData, magneticLengthDesign,
-		    defaultEnergy, realEnergy, conversionFunctions,
+	    return new Conversion(measuredData, designLength,
+		    defaultEnergy, realEnergy, algorithms,
 		    description, conversionResult);
 	}
 
     }
 
-    private MeasurementData measurementData;
+    private MeasuredData measuredData;
 
     // These are design values
-    private Double magneticLengthDesign;
+    private Double designLength;
     private Double defaultEnergy;
 
     private Double realEnergy;
 
-    private Map<String, ConversionAlgorithm> conversionFunctions;
+    private Map<String, ConversionAlgorithm> algorithms;
 
     private String description;
 
@@ -107,40 +107,40 @@ public class Conversion {
     /**
      * @param type
      * @param device
-     * @param measurementData
-     * @param magneticLengthDesign
+     * @param measuredData
+     * @param designLength
      * @param defaultEnergy
      * @param liveBeamEnergy
-     * @param conversionFunctions
+     * @param conversions
      * @param description
      */
-    private Conversion(MeasurementData measurementData,
-	    Double magneticLengthDesign, Double defaultEnergy,
+    private Conversion(MeasuredData measuredData,
+	    Double designLength, Double defaultEnergy,
 	    Double realEnergy,
-	    Map<String, ConversionAlgorithm> conversionFunctions,
+	    Map<String, ConversionAlgorithm> algorithms,
 	    String description, ConversionResult conversionResult) {
-	this.measurementData = measurementData;
-	this.magneticLengthDesign = magneticLengthDesign;
+	this.measuredData = measuredData;
+	this.designLength = designLength;
 	this.defaultEnergy = defaultEnergy;
 	this.realEnergy = realEnergy;
-	this.conversionFunctions = conversionFunctions;
+	this.algorithms = algorithms;
 	this.description = description;
 	this.conversionResult = conversionResult;
     }
 
    
     /**
-     * @return the measurementData
+     * @return the measuredData
      */
-    public MeasurementData getMeasurementData() {
-        return measurementData;
+    public MeasuredData getmeasuredData() {
+        return measuredData;
     }
 
     /**
-     * @return the magneticLengthDesign
+     * @return the designLength
      */
-    public Double getMagneticLengthDesign() {
-	return magneticLengthDesign;
+    public Double getdesignLength() {
+	return designLength;
     }
 
     /**
@@ -158,10 +158,10 @@ public class Conversion {
     }
 
     /**
-     * @return the conversionFunctions
+     * @return the conversions
      */
-    public Map<String, ConversionAlgorithm> getConversionFunctions() {
-	return Collections.unmodifiableMap(conversionFunctions);
+    public Map<String, ConversionAlgorithm> getAlgorithms() {
+	return Collections.unmodifiableMap(algorithms);
     }
 
     /**
@@ -189,7 +189,7 @@ public class Conversion {
 	int result = 1;
 	result = prime
 		* result
-		+ ((conversionFunctions == null) ? 0 : conversionFunctions
+		+ ((algorithms == null) ? 0 : algorithms
 			.hashCode());
 	result = prime
 		* result
@@ -202,10 +202,10 @@ public class Conversion {
 		+ ((realEnergy == null) ? 0 : realEnergy.hashCode());
 	result = prime
 		* result
-		+ ((magneticLengthDesign == null) ? 0 : magneticLengthDesign
+		+ ((designLength == null) ? 0 : designLength
 			.hashCode());
 	result = prime * result
-		+ ((measurementData == null) ? 0 : measurementData.hashCode());
+		+ ((measuredData == null) ? 0 : measuredData.hashCode());
 	return result;
     }
 
@@ -223,10 +223,10 @@ public class Conversion {
 	if (getClass() != obj.getClass())
 	    return false;
 	Conversion other = (Conversion) obj;
-	if (conversionFunctions == null) {
-	    if (other.conversionFunctions != null)
+	if (algorithms == null) {
+	    if (other.algorithms != null)
 		return false;
-	} else if (!conversionFunctions.equals(other.conversionFunctions))
+	} else if (!algorithms.equals(other.algorithms))
 	    return false;
 	if (conversionResult == null) {
 	    if (other.conversionResult != null)
@@ -248,15 +248,15 @@ public class Conversion {
 		return false;
 	} else if (!realEnergy.equals(other.realEnergy))
 	    return false;
-	if (magneticLengthDesign == null) {
-	    if (other.magneticLengthDesign != null)
+	if (designLength == null) {
+	    if (other.designLength != null)
 		return false;
-	} else if (!magneticLengthDesign.equals(other.magneticLengthDesign))
+	} else if (!designLength.equals(other.designLength))
 	    return false;
-	if (measurementData == null) {
-	    if (other.measurementData != null)
+	if (measuredData == null) {
+	    if (other.measuredData != null)
 		return false;
-	} else if (!measurementData.equals(other.measurementData))
+	} else if (!measuredData.equals(other.measuredData))
 	    return false;
 	return true;
     }
