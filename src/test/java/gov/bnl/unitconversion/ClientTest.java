@@ -61,39 +61,68 @@ public class ClientTest {
 	 * "Danfysik, Denmark", "name": "SH1G2C30A", "install_id": 3, "system":
 	 * "Storage Ring", "cmpnt_type_name": "Sext A"}
 	 */
-	Device device = device("SH1G2C30A").system("Storage Ring").installId(3)
-		.componentTypeName("Sext A").inventoryId(430).serialNumber(79)
-		.typeDescription("68mm, SHORT SEXTUPOLE")
+	Device device_SH1G2C30A = device("SH1G2C30A").system("Storage Ring")
+		.installId(3).componentTypeName("Sext A").inventoryId(430)
+		.serialNumber(79).typeDescription("68mm, SHORT SEXTUPOLE")
 		.vendor("Danfysik, Denmark").build();
 	ConversionClient client = new ConversionClient(
 		"http://localhost:8000/magnets");
 	Collection<Device> devices;
 	try {
 	    devices = client.findDevices("SH1G2C30A");
-	    Assert.assertTrue("Failed to find device", devices.contains(device));
+	    Assert.assertTrue("Failed to find device",
+		    devices.contains(device_SH1G2C30A));
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
 
-	// When seraching for SH*G2C30A
+	// When seraching for SH*G2C30A we expect 3 device returned
 	//
-	// [{"type_description": "68mm, SHORT SEXTUPOLE", "vendor":
-	// "Danfysik, Denmark", "name": "SH1G2C30A", "install_id": 3, "system":
-	// "Storage Ring", "cmpnt_type_name": "Sext A"}, {"type_description":
-	// "68mm, SHORT SEXTUPOLE", "vendor": "Danfysik, Denmark", "name":
-	// "SH3G2C30A", "install_id": 7, "system": "Storage Ring",
-	// "cmpnt_type_name": "Sext A"}, {"type_description":
-	// "68mm, SHORT SEXTUPOLE", "vendor": "Danfysik, Denmark", "name":
-	// "SH4G2C30A", "install_id": 9, "system": "Storage Ring",
-	// "cmpnt_type_name": "Sext A"}]
-	
+	// {"installId": 3, "vendor": "Danfysik, Denmark", "name": "SH1G2C30A",
+	// "serialNumber": "79",
+	// "system": "Storage Ring", "componentType": "Sext A", "inventoryId":
+	// 430,
+	// "typeDescription": "68mm, SHORT SEXTUPOLE"},
+	//
+	// {"installId": 7, "vendor": "Danfysik, Denmark", "name": "SH3G2C30A",
+	// "serialNumber": "83",
+	// "system": "Storage Ring", "componentType": "Sext A", "inventoryId":
+	// 434,
+	// "typeDescription": "68mm, SHORT SEXTUPOLE"},
+	//
+	// {"installId": 9, "vendor": "Danfysik, Denmark", "name": "SH4G2C30A",
+	// "serialNumber": "85",
+	// "system": "Storage Ring", "componentType": "Sext A", "inventoryId":
+	// 436,
+	// "typeDescription": "68mm, SHORT SEXTUPOLE"}
+	Device deviceSH1G2C30A = device("SH1G2C30A").installId(3)
+		.vendor("Danfysik, Denmark").serialNumber(79)
+		.system("Storage Ring").componentTypeName("Sext A")
+		.inventoryId(430).typeDescription("68mm, SHORT SEXTUPOLE")
+		.build();
+
+	Device deviceSH3G2C30A = device("SH3G2C30A").installId(7)
+		.vendor("Danfysik, Denmark").serialNumber(83)
+		.system("Storage Ring").componentTypeName("Sext A")
+		.inventoryId(434).typeDescription("68mm, SHORT SEXTUPOLE")
+		.build();
+
+	Device deviceSH4G2C30A = device("SH4G2C30A").installId(9)
+		.vendor("Danfysik, Denmark").serialNumber(85)
+		.system("Storage Ring").componentTypeName("Sext A")
+		.inventoryId(436).typeDescription("68mm, SHORT SEXTUPOLE")
+		.build();
+	Device[] expectedDevices = { deviceSH1G2C30A, deviceSH3G2C30A,
+		deviceSH4G2C30A };
+
 	try {
 	    devices = client.findDevices("SH*G2C30A");
 	    Assert.assertTrue("Failed to find devices", devices.size() == 3);
+	    Assert.assertArrayEquals("Device search result do not match:",
+		    expectedDevices, devices.toArray(new Device[3]));
 	} catch (IOException e) {
 	    Assert.fail(e.getMessage());
 	}
-	
 
     }
 
@@ -102,7 +131,8 @@ public class ClientTest {
 	ConversionClient client = new ConversionClient(
 		"http://localhost:8000/magnets");
 	try {
-	    Map<String, Map<String, Conversion>> info = client.getConversionInfo("LN-SO5");
+	    Map<String, Map<String, Conversion>> info = client
+		    .getConversionInfo("LN-SO5");
 	} catch (Exception e) {
 	    Assert.fail(e.getMessage());
 	}
