@@ -14,10 +14,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import javax.ws.rs.core.MultivaluedMap;
+
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
 import org.junit.rules.ExpectedException;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  * @author shroffk
@@ -55,7 +60,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testFind() {
+    public void testFindDeviceByName() {
 	/**
 	 * {"type_description": "68mm, SHORT SEXTUPOLE", "vendor":
 	 * "Danfysik, Denmark", "name": "SH1G2C30A", "install_id": 3, "system":
@@ -124,6 +129,77 @@ public class ClientTest {
 	    Assert.fail(e.getMessage());
 	}
 
+    }
+
+    @Test
+    public void testFindDevice() {
+	// {"installId": 717,
+	// "vendor": "BINP, Russia",
+	// "name": "QH2G6C23B",
+	// "serialNumber": "12",
+	// "system": "Storage Ring",
+	// "componentType": "Quad Cp",
+	// "inventoryId": 111,
+	// "typeDescription": "66mm, LONG, DBL COIL KINKED QUAD"}
+	Device deviceQH2G6C23B = device("QH2G6C23B").installId(717)
+		.vendor("BINP, Russia").serialNumber(12).system("Storage Ring")
+		.componentTypeName("Quad Cp").inventoryId(111)
+		.typeDescription("66mm, LONG, DBL COIL KINKED QUAD").build();
+
+	// QM2G4C01B
+
+	// A1SD2
+
+	Collection<Device> results;
+	ConversionClient client = new ConversionClient(
+		"http://localhost:8000/magnets");
+	MultivaluedMap<String, String> searchParameters = new MultivaluedMapImpl();
+	try {
+	    // Search by system
+	    searchParameters.add("system", "Storage Ring");
+	    results = client.findDevices(searchParameters);
+	    Assert.assertTrue("Failed to search by system",
+		    results.contains(deviceQH2G6C23B));
+	    // Search by installId
+	    searchParameters.clear();
+	    searchParameters.add("installId", String.valueOf(717));
+	    results = client.findDevices(searchParameters);
+	    Assert.assertTrue("Failed to search by installId",
+		    results.contains(deviceQH2G6C23B));
+	    // Search by serialNumber
+	    searchParameters.clear();
+	    searchParameters.add("serialNumber", String.valueOf(12));
+	    results = client.findDevices(searchParameters);
+	    Assert.assertTrue("Failed to search by serialNumber",
+		    results.contains(deviceQH2G6C23B));
+	    // Search by inventoryId
+	    searchParameters.clear();
+	    searchParameters.add("inventoryId", String.valueOf(111));
+	    results = client.findDevices(searchParameters);
+	    Assert.assertTrue("Failed to search by inventoryId",
+		    results.contains(deviceQH2G6C23B));
+	    // Search by vendor
+	    searchParameters.clear();
+	    searchParameters.add("vendor", "BINP, Russia");
+	    results = client.findDevices(searchParameters);
+	    Assert.assertTrue("Failed to search by vendor",
+		    results.contains(deviceQH2G6C23B));
+	    // Search by componentType
+	    searchParameters.clear();
+	    searchParameters.add("componentType", "Quad Cp");
+	    results = client.findDevices(searchParameters);
+	    Assert.assertTrue("Failed to search by componentType",
+		    results.contains(deviceQH2G6C23B));
+	    // Search by typeDescription
+	    searchParameters.clear();
+	    searchParameters.add("typeDescription",
+		    "66mm, LONG, DBL COIL KINKED QUAD");
+	    results = client.findDevices(searchParameters);
+	    Assert.assertTrue("Failed to search by typeDescription",
+		    results.contains(deviceQH2G6C23B));
+	} catch (Exception e) {
+	    Assert.fail(e.getMessage());
+	}
     }
 
     @Test

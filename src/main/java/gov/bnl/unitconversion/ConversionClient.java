@@ -67,9 +67,14 @@ public class ConversionClient {
     public Collection<Device> findDevices(String name) throws IOException {
 	MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
 	queryParams.add("name", name);
+	return findDevices(queryParams);
+    }
+
+    public Collection<Device> findDevices(
+	    MultivaluedMap<String, String> searchParameters) throws IOException {
 	ClientResponse clientResponse = service.path("devices")
-		.queryParams(queryParams).accept(MediaType.APPLICATION_JSON)
-		.get(ClientResponse.class);
+		.queryParams(searchParameters)
+		.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 	if (clientResponse.getStatus() < 300) {
 	    Collection<Device> devices = Arrays.asList(clientResponse
 		    .getEntity(Device[].class));
@@ -80,7 +85,9 @@ public class ConversionClient {
 	}
     }
 
-    public Map<String, Map<String, Conversion>> getConversionInfo(String name) throws JsonParseException, JsonMappingException, ClientHandlerException, UniformInterfaceException, IOException {
+    public Map<String, Map<String, Conversion>> getConversionInfo(String name)
+	    throws JsonParseException, JsonMappingException,
+	    ClientHandlerException, UniformInterfaceException, IOException {
 	MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
 	queryParams.add("name", name);
 	ClientResponse clientResponse = service.path("conversion")
@@ -93,10 +100,10 @@ public class ConversionClient {
 	    JsonFactory f = new JsonFactory();
 	    JsonParser jp = f.createJsonParser(src);
 	    jp.nextToken();
-	    while(jp.nextToken() != JsonToken.END_OBJECT){
+	    while (jp.nextToken() != JsonToken.END_OBJECT) {
 		String token = jp.getCurrentName();
-		System.out.println(token+":"+jp.getText());
-//		jp.nextToken();		
+		System.out.println(token + ":" + jp.getText());
+		// jp.nextToken();
 	    }
 	    return null;
 	} else {
