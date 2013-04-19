@@ -64,7 +64,6 @@ public class ConversionClient {
 	}
     }
 
-    @SuppressWarnings("unchecked")
     public Collection<Device> findDevices(String name) throws IOException {
 	MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
 	queryParams.add("name", name);

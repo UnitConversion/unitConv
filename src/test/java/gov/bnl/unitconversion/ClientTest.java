@@ -62,7 +62,7 @@ public class ClientTest {
 	 * "Storage Ring", "cmpnt_type_name": "Sext A"}
 	 */
 	Device device = device("SH1G2C30A").system("Storage Ring").installId(3)
-		.componentTypeName("Sext A")
+		.componentTypeName("Sext A").inventoryId(430).serialNumber(79)
 		.typeDescription("68mm, SHORT SEXTUPOLE")
 		.vendor("Danfysik, Denmark").build();
 	ConversionClient client = new ConversionClient(
