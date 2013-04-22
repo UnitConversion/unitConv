@@ -46,8 +46,8 @@ public class ClientTest {
 
     @Test
     public void testListSystems() {
-	Collection<String> testSystems = Arrays.asList("Storage Ring", "Linac",
-		"LBT", "Booster", "BST");
+	Collection<String> testSystems = Arrays.asList("Linac", "LBT",
+		"Booster", "BST", "Storage Ring");
 	ConversionClient client = new ConversionClient(
 		"http://localhost:8000/magnets");
 	Collection<String> systems;
@@ -67,7 +67,7 @@ public class ClientTest {
 	 * "Storage Ring", "cmpnt_type_name": "Sext A"}
 	 */
 	Device device_SH1G2C30A = device("SH1G2C30A").system("Storage Ring")
-		.installId(3).componentTypeName("Sext A").inventoryId(430)
+		.installId(172).componentTypeName("Sext A").inventoryId(599)
 		.serialNumber(79).typeDescription("68mm, SHORT SEXTUPOLE")
 		.vendor("Danfysik, Denmark").build();
 	ConversionClient client = new ConversionClient(
@@ -100,22 +100,22 @@ public class ClientTest {
 	// "system": "Storage Ring", "componentType": "Sext A", "inventoryId":
 	// 436,
 	// "typeDescription": "68mm, SHORT SEXTUPOLE"}
-	Device deviceSH1G2C30A = device("SH1G2C30A").installId(3)
+	Device deviceSH1G2C30A = device("SH1G2C30A").installId(172)
 		.vendor("Danfysik, Denmark").serialNumber(79)
 		.system("Storage Ring").componentTypeName("Sext A")
-		.inventoryId(430).typeDescription("68mm, SHORT SEXTUPOLE")
+		.inventoryId(599).typeDescription("68mm, SHORT SEXTUPOLE")
 		.build();
 
-	Device deviceSH3G2C30A = device("SH3G2C30A").installId(7)
+	Device deviceSH3G2C30A = device("SH3G2C30A").installId(176)
 		.vendor("Danfysik, Denmark").serialNumber(83)
 		.system("Storage Ring").componentTypeName("Sext A")
-		.inventoryId(434).typeDescription("68mm, SHORT SEXTUPOLE")
+		.inventoryId(603).typeDescription("68mm, SHORT SEXTUPOLE")
 		.build();
 
-	Device deviceSH4G2C30A = device("SH4G2C30A").installId(9)
+	Device deviceSH4G2C30A = device("SH4G2C30A").installId(178)
 		.vendor("Danfysik, Denmark").serialNumber(85)
 		.system("Storage Ring").componentTypeName("Sext A")
-		.inventoryId(436).typeDescription("68mm, SHORT SEXTUPOLE")
+		.inventoryId(605).typeDescription("68mm, SHORT SEXTUPOLE")
 		.build();
 	Device[] expectedDevices = { deviceSH1G2C30A, deviceSH3G2C30A,
 		deviceSH4G2C30A };
@@ -137,17 +137,17 @@ public class ClientTest {
      */
     @Test
     public void testFindDevice() {
-	// {"installId": 717,
+	// {"installId": 886,
 	// "vendor": "BINP, Russia",
 	// "name": "QH2G6C23B",
 	// "serialNumber": "12",
 	// "system": "Storage Ring",
 	// "componentType": "Quad Cp",
-	// "inventoryId": 111,
-	// "typeDescription": "66mm, LONG, DBL COIL KINKED QUAD"}
-	Device deviceQH2G6C23B = device("QH2G6C23B").installId(717)
+	// "inventoryId": 280,
+	// "typeDescription": "66mm, LONG, DBL COIL KINKED QUAD"}]
+	Device deviceQH2G6C23B = device("QH2G6C23B").installId(886)
 		.vendor("BINP, Russia").serialNumber(12).system("Storage Ring")
-		.componentTypeName("Quad Cp").inventoryId(111)
+		.componentTypeName("Quad Cp").inventoryId(280)
 		.typeDescription("66mm, LONG, DBL COIL KINKED QUAD").build();
 
 	// QM2G4C01B
@@ -164,43 +164,27 @@ public class ClientTest {
 	    results = client.findDevices(searchParameters);
 	    Assert.assertTrue("Failed to search by system",
 		    results.contains(deviceQH2G6C23B));
-	    // Search by installId
-	    searchParameters.clear();
-	    searchParameters.add("installId", String.valueOf(717));
-	    results = client.findDevices(searchParameters);
-	    Assert.assertTrue("Failed to search by installId",
-		    results.contains(deviceQH2G6C23B));
-	    // Search by serialNumber
-	    searchParameters.clear();
-	    searchParameters.add("serialNumber", String.valueOf(12));
-	    results = client.findDevices(searchParameters);
-	    Assert.assertTrue("Failed to search by serialNumber",
-		    results.contains(deviceQH2G6C23B));
-	    // Search by inventoryId
-	    searchParameters.clear();
-	    searchParameters.add("inventoryId", String.valueOf(111));
-	    results = client.findDevices(searchParameters);
-	    Assert.assertTrue("Failed to search by inventoryId",
-		    results.contains(deviceQH2G6C23B));
-	    // Search by vendor
-	    searchParameters.clear();
-	    searchParameters.add("vendor", "BINP, Russia");
-	    results = client.findDevices(searchParameters);
-	    Assert.assertTrue("Failed to search by vendor",
-		    results.contains(deviceQH2G6C23B));
+	    for (Device device : results) {
+		Assert.assertTrue("Failed to serach correctly:", device.getSystem().equalsIgnoreCase("Storage Ring"));
+	    }
 	    // Search by componentType
 	    searchParameters.clear();
-	    searchParameters.add("componentType", "Quad Cp");
+	    searchParameters.add("cmpnt_type", "Quad Cp");
 	    results = client.findDevices(searchParameters);
 	    Assert.assertTrue("Failed to search by componentType",
-		    results.contains(deviceQH2G6C23B));
-	    // Search by typeDescription
+		    results.contains(deviceQH2G6C23B));	   
+	    for (Device device : results) {
+		Assert.assertTrue("Failed to serach correctly:", device.getComponentType().equalsIgnoreCase("Quad Cp"));
+	    }
+	    // Search by serialNumber
 	    searchParameters.clear();
-	    searchParameters.add("typeDescription",
-		    "66mm, LONG, DBL COIL KINKED QUAD");
+	    searchParameters.add("serialno", String.valueOf(12));
 	    results = client.findDevices(searchParameters);
-	    Assert.assertTrue("Failed to search by typeDescription",
-		    results.contains(deviceQH2G6C23B));
+	    Assert.assertTrue("Failed to search by serialNumber",
+		    results.contains(deviceQH2G6C23B));	    
+	    for (Device device : results) {
+		Assert.assertTrue("Failed to serach correctly:", device.getSerialNumber() == 12);
+	    }
 	} catch (Exception e) {
 	    Assert.fail(e.getMessage());
 	}
@@ -220,7 +204,8 @@ public class ClientTest {
 		"http://localhost:8000/magnets");
 	try {
 	    Collection<Device> result = client.getConversionInfo("LN-SO5");
-	    Assert.assertTrue("Failed to gather conversionInfo", result.size() == 1);
+	    Assert.assertTrue("Failed to gather conversionInfo",
+		    result.size() == 1);
 	} catch (Exception e) {
 	    Assert.fail(e.getMessage());
 	}
