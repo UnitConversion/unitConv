@@ -3,12 +3,18 @@
  */
 package gov.bnl.unitconversion;
 
+import gov.bnl.unitconversion.Device.DeviceBuilder;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -107,28 +113,24 @@ public class ConversionClient {
 	    System.out.println(devices);
 	    ObjectMapper mapper = new ObjectMapper();
 
-	    JsonFactory f = new JsonFactory();
-	    JsonParser jp = f.createJsonParser(devices);
-
-	    ObjectReader reader = mapper.reader(Device.class);
 	    JsonNode tree = mapper.readTree(devices);
-	    for (JsonNode jsonNode : tree) {
-//		Device test = reader.readValue(jsonNode);
-		Map<String, Map<String, Conversion>> parsedComplexMap = mapper
+	    Collection<Device> result = new ArrayList<Device>();
+	    Map<String, Map<String, Conversion>> parsedComplexMap = Collections
+		    .emptyMap();
+	    
+	    Iterator<Entry<String, JsonNode>> it = tree.getFields();
+	    for (Entry<String, JsonNode> field; it.hasNext();) {
+		field = it.next();
+		DeviceBuilder d = DeviceBuilder.device(field.getKey());
+		parsedComplexMap = mapper
 			.readValue(
-				jsonNode,
+				field.getValue(),
 				new TypeReference<HashMap<String, HashMap<String, Conversion>>>() {
 				});
+		d.conversionInfo(parsedComplexMap);
+		result.add(d.build());
 	    }
-	    jp.nextToken();
-	    while (jp.nextToken() != JsonToken.END_OBJECT) {
-		String token = jp.getCurrentName();
-		System.out.println(token + ":" + jp.getText());
-		Device d = jp.readValueAs(new TypeReference<Device>() {
-
-		});
-	    }
-	    return null;
+	    return result;
 	} else {
 	    throw new IOException("Failed with error code : "
 		    + clientResponse.getStatus());

@@ -8,11 +8,17 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonIgnoreType;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * @author shroffk
  * 
  */
 @XmlRootElement
+@JsonIgnoreProperties
 public class Conversion {
 
     public static class ConversionDataBuilder {
@@ -39,14 +45,12 @@ public class Conversion {
 	    return new ConversionDataBuilder();
 	}
 
-	public ConversionDataBuilder withmeasuredData(
-		MeasuredData measuredData) {
+	public ConversionDataBuilder withmeasuredData(MeasuredData measuredData) {
 	    this.measuredData = measuredData;
 	    return this;
 	}
 
-	public ConversionDataBuilder withDesignLength(
-		Double designLength) {
+	public ConversionDataBuilder withDesignLength(Double designLength) {
 	    this.designLength = designLength;
 	    return this;
 	}
@@ -79,13 +83,13 @@ public class Conversion {
 	}
 
 	public Conversion build() {
-	    return new Conversion(measuredData, designLength,
-		    defaultEnergy, realEnergy, algorithms,
-		    description, conversionResult);
+	    return new Conversion(measuredData, designLength, defaultEnergy,
+		    realEnergy, algorithms, description, conversionResult);
 	}
 
     }
 
+    @JsonProperty("measurementData")
     private MeasuredData measuredData;
 
     // These are design values
@@ -114,11 +118,10 @@ public class Conversion {
      * @param conversions
      * @param description
      */
-    private Conversion(MeasuredData measuredData,
-	    Double designLength, Double defaultEnergy,
-	    Double realEnergy,
-	    Map<String, ConversionAlgorithm> algorithms,
-	    String description, ConversionResult conversionResult) {
+    private Conversion(MeasuredData measuredData, Double designLength,
+	    Double defaultEnergy, Double realEnergy,
+	    Map<String, ConversionAlgorithm> algorithms, String description,
+	    ConversionResult conversionResult) {
 	this.measuredData = measuredData;
 	this.designLength = designLength;
 	this.defaultEnergy = defaultEnergy;
@@ -128,12 +131,11 @@ public class Conversion {
 	this.conversionResult = conversionResult;
     }
 
-   
     /**
      * @return the measuredData
      */
     public MeasuredData getmeasuredData() {
-        return measuredData;
+	return measuredData;
     }
 
     /**
@@ -147,14 +149,14 @@ public class Conversion {
      * @return the defaultEnergy
      */
     public Double getDefaultEnergy() {
-        return defaultEnergy;
+	return defaultEnergy;
     }
 
     /**
      * @return the realEnergy
      */
     public Double getRealEnergy() {
-        return realEnergy;
+	return realEnergy;
     }
 
     /**
@@ -187,10 +189,8 @@ public class Conversion {
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime
-		* result
-		+ ((algorithms == null) ? 0 : algorithms
-			.hashCode());
+	result = prime * result
+		+ ((algorithms == null) ? 0 : algorithms.hashCode());
 	result = prime
 		* result
 		+ ((conversionResult == null) ? 0 : conversionResult.hashCode());
@@ -200,10 +200,8 @@ public class Conversion {
 		+ ((description == null) ? 0 : description.hashCode());
 	result = prime * result
 		+ ((realEnergy == null) ? 0 : realEnergy.hashCode());
-	result = prime
-		* result
-		+ ((designLength == null) ? 0 : designLength
-			.hashCode());
+	result = prime * result
+		+ ((designLength == null) ? 0 : designLength.hashCode());
 	result = prime * result
 		+ ((measuredData == null) ? 0 : measuredData.hashCode());
 	return result;
