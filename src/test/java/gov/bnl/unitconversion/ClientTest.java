@@ -131,6 +131,10 @@ public class ClientTest {
 
     }
 
+    /**
+     * A Test to check the searching of Devices based on various search
+     * criteria.
+     */
     @Test
     public void testFindDevice() {
 	// {"installId": 717,
@@ -202,13 +206,21 @@ public class ClientTest {
 	}
     }
 
+    /**
+     * Search for Devices using a combination for search parameters
+     */
+    @Test
+    public void testFindDevice2() {
+
+    }
+
     @Test
     public void testConversion() {
 	ConversionClient client = new ConversionClient(
 		"http://localhost:8000/magnets");
 	try {
-	    Map<String, Map<String, Conversion>> info = client
-		    .getConversionInfo("LN-SO5");
+	    Collection<Device> result = client.getConversionInfo("LN-SO5");
+	    Assert.assertTrue("Failed to gather conversionInfo", result.size() == 1);
 	} catch (Exception e) {
 	    Assert.fail(e.getMessage());
 	}

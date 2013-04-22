@@ -6,6 +6,7 @@ package gov.bnl.unitconversion;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,11 +15,14 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 
 import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectReader;
+import org.codehaus.jackson.type.TypeReference;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
@@ -85,25 +89,44 @@ public class ConversionClient {
 	}
     }
 
-    public Map<String, Map<String, Conversion>> getConversionInfo(String name)
+    public Collection<Device> getConversionInfo(String name)
 	    throws JsonParseException, JsonMappingException,
 	    ClientHandlerException, UniformInterfaceException, IOException {
 	MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
 	queryParams.add("name", name);
+	return getConversionInfo(queryParams);
+    }
+
+    public Collection<Device> getConversionInfo(
+	    MultivaluedMap<String, String> searchParameters) throws IOException {
 	ClientResponse clientResponse = service.path("conversion")
-		.queryParams(queryParams).accept(MediaType.APPLICATION_JSON)
-		.get(ClientResponse.class);
+		.queryParams(searchParameters)
+		.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 	if (clientResponse.getStatus() < 300) {
+	    String devices = clientResponse.getEntity(String.class);
+	    System.out.println(devices);
 	    ObjectMapper mapper = new ObjectMapper();
-	    String src = "{\"LN-SO5\":{\"municonv_chain\":{\"standard\":{\"raw\":\"(-0.000456230223511*I+-0.000234111416058)*(1-0.0723486665586)\",\"i2b\":[0,\"-0.000423222575196*input -0.00021717376728\"]}}}}";
-	    System.out.println(src);
+
 	    JsonFactory f = new JsonFactory();
-	    JsonParser jp = f.createJsonParser(src);
+	    JsonParser jp = f.createJsonParser(devices);
+
+	    ObjectReader reader = mapper.reader(Device.class);
+	    JsonNode tree = mapper.readTree(devices);
+	    for (JsonNode jsonNode : tree) {
+//		Device test = reader.readValue(jsonNode);
+		Map<String, Map<String, Conversion>> parsedComplexMap = mapper
+			.readValue(
+				jsonNode,
+				new TypeReference<HashMap<String, HashMap<String, Conversion>>>() {
+				});
+	    }
 	    jp.nextToken();
 	    while (jp.nextToken() != JsonToken.END_OBJECT) {
 		String token = jp.getCurrentName();
 		System.out.println(token + ":" + jp.getText());
-		// jp.nextToken();
+		Device d = jp.readValueAs(new TypeReference<Device>() {
+
+		});
 	    }
 	    return null;
 	} else {
