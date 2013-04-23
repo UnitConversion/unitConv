@@ -263,7 +263,7 @@ public class ClientTest {
 	try {
 	    Collection<Device> result = client.getConversionInfo("QH*G6C23B");
 	    Assert.assertTrue("Failed to gather conversionInfo",
-		    result.size() == 1);
+		    result.size() == 3);
 	} catch (Exception e) {
 	    Assert.fail(e.getMessage());
 	}
