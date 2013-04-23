@@ -6,12 +6,12 @@ package gov.bnl.unitconversion;
 import static gov.bnl.unitconversion.Conversion.ConversionDataBuilder.conversionDataOfType;
 import static gov.bnl.unitconversion.ConversionAlgorithm.ConversionAlogrithmBuilder.*;
 import static gov.bnl.unitconversion.Device.DeviceBuilder.device;
-import static gov.bnl.unitconversion.MeasuredData.MeasuredDataBuilder.magnetMeasurements;
+import static gov.bnl.unitconversion.MeasurementData.MeasurementDataBuilder.magnetMeasurements;
 
 import gov.bnl.unitconversion.Conversion;
 import gov.bnl.unitconversion.ConversionAlgorithm;
 import gov.bnl.unitconversion.Device;
-import gov.bnl.unitconversion.MeasuredData;
+import gov.bnl.unitconversion.MeasurementData;
 
 import java.io.File;
 import java.util.Arrays;
@@ -115,7 +115,7 @@ public class DataTypeTest {
 		"Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn",
 		"Dn");
 	List<Double> magneticLength = Collections.emptyList();
-	MeasuredData measurementData = magnetMeasurements().Current(current)
+	MeasurementData measurementData = magnetMeasurements().Current(current)
 		.CurrentUnit("A").Field(field).FieldUnit("T-m")
 		.Direction(direction).MagneticLength(magneticLength).build();
 	try {
@@ -125,8 +125,8 @@ public class DataTypeTest {
 	    objectMapper.writeValue(jsonMagnetMeasurementData, measurementData);
 	    System.out
 		    .println(objectMapper.writeValueAsString(measurementData));
-	    MeasuredData parsedMagnetMeasurementData = objectMapper
-		    .readValue(jsonMagnetMeasurementData, MeasuredData.class);
+	    MeasurementData parsedMagnetMeasurementData = objectMapper
+		    .readValue(jsonMagnetMeasurementData, MeasurementData.class);
 	    Assert.assertEquals("Failed to correctly parse Device object ",
 		    measurementData, parsedMagnetMeasurementData);
 	} catch (Exception e) {
@@ -251,7 +251,7 @@ public class DataTypeTest {
 		"Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn", "Dn",
 		"Dn");
 	List<Double> magneticLength = Collections.emptyList();
-	MeasuredData measurementData = magnetMeasurements().Current(current)
+	MeasurementData measurementData = magnetMeasurements().Current(current)
 		.CurrentUnit("A").Field(field).FieldUnit("T-m")
 		.Direction(direction).MagneticLength(magneticLength).build();
 	Map<String, ConversionAlgorithm> conversions = new HashMap<String, ConversionAlgorithm>();
@@ -358,7 +358,7 @@ public class DataTypeTest {
 		-0.009285, -0.010423, -0.011546, -0.012694, -0.013817,
 		-0.014941, -0.016098, -0.017217, -0.018358, -0.019476,
 		-0.020613, -0.021764, -0.022898);
-	final MeasuredData magnetMeasuredData2 = magnetMeasurements()
+	final MeasurementData magnetMeasuredData2 = magnetMeasurements()
 		.Current(LNSO5current).CurrentUnit("A").Field(LNSO5field)
 		.FieldUnit("T").Direction(LNSO5direction).build();
 	final Map<String, ConversionAlgorithm> conversions2 = new HashMap<String, ConversionAlgorithm>();

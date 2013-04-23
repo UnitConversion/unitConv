@@ -6,9 +6,9 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class MeasuredData {
+public class MeasurementData {
 
-    public static class MeasuredDataBuilder {
+    public static class MeasurementDataBuilder {
 	private List<String> direction = Collections.emptyList();
 	private List<Double> current = Collections.emptyList();
 	private List<Double> currentError = Collections.emptyList();
@@ -30,19 +30,19 @@ public class MeasuredData {
 	private String magneticRigidityUnit;
 	private String conditionCurrent;
 
-	private MeasuredDataBuilder() {
+	private MeasurementDataBuilder() {
 
 	}
 
-	public static MeasuredDataBuilder magnetMeasurements() {
-	    return new MeasuredDataBuilder();
+	public static MeasurementDataBuilder magnetMeasurements() {
+	    return new MeasurementDataBuilder();
 	}
 
 	/**
 	 * @param direction
 	 *            the direction to set
 	 */
-	public MeasuredDataBuilder Direction(List<String> direction) {
+	public MeasurementDataBuilder Direction(List<String> direction) {
 	    this.direction = direction;
 	    return this;
 	}
@@ -51,7 +51,7 @@ public class MeasuredData {
 	 * @param current
 	 *            the current to set
 	 */
-	public MeasuredDataBuilder Current(List<Double> current) {
+	public MeasurementDataBuilder Current(List<Double> current) {
 	    this.current = current;
 	    return this;
 	}
@@ -60,7 +60,7 @@ public class MeasuredData {
 	 * @param currentError
 	 *            the currentError to set
 	 */
-	public MeasuredDataBuilder CurrentError(List<Double> currentError) {
+	public MeasurementDataBuilder CurrentError(List<Double> currentError) {
 	    this.currentError = currentError;
 	    return this;
 	}
@@ -69,7 +69,7 @@ public class MeasuredData {
 	 * @param currentUnit
 	 *            the currentUnit to set
 	 */
-	public MeasuredDataBuilder CurrentUnit(String currentUnit) {
+	public MeasurementDataBuilder CurrentUnit(String currentUnit) {
 	    this.currentUnit = currentUnit;
 	    return this;
 	}
@@ -78,7 +78,7 @@ public class MeasuredData {
 	 * @param field
 	 *            the field to set
 	 */
-	public MeasuredDataBuilder Field(List<Double> field) {
+	public MeasurementDataBuilder Field(List<Double> field) {
 	    this.field = field;
 	    return this;
 	}
@@ -87,7 +87,7 @@ public class MeasuredData {
 	 * @param fieldError
 	 *            the fieldError to set
 	 */
-	public MeasuredDataBuilder FieldError(List<Double> fieldError) {
+	public MeasurementDataBuilder FieldError(List<Double> fieldError) {
 	    this.fieldError = fieldError;
 	    return this;
 	}
@@ -96,7 +96,7 @@ public class MeasuredData {
 	 * @param fieldUnit
 	 *            the fieldUnit to set
 	 */
-	public MeasuredDataBuilder FieldUnit(String fieldUnit) {
+	public MeasurementDataBuilder FieldUnit(String fieldUnit) {
 	    this.fieldUnit = fieldUnit;
 	    return this;
 	}
@@ -105,7 +105,7 @@ public class MeasuredData {
 	 * @param magneticLength
 	 *            the magneticLength to set
 	 */
-	public MeasuredDataBuilder MagneticLength(List<Double> magneticLength) {
+	public MeasurementDataBuilder MagneticLength(List<Double> magneticLength) {
 	    this.magneticLength = magneticLength;
 	    return this;
 	}
@@ -114,7 +114,7 @@ public class MeasuredData {
 	 * @param averageLength
 	 *            the averageLength to set
 	 */
-	public MeasuredDataBuilder averageLength(Double averageLength) {
+	public MeasurementDataBuilder averageLength(Double averageLength) {
 	    this.averageLength = averageLength;
 	    return this;
 	}
@@ -123,7 +123,7 @@ public class MeasuredData {
 	 * @param runNumber
 	 *            the runNumber to set
 	 */
-	public MeasuredDataBuilder RunNumber(List<Double> runNumber) {
+	public MeasurementDataBuilder RunNumber(List<Double> runNumber) {
 	    this.runNumber = runNumber;
 	    return this;
 	}
@@ -132,61 +132,61 @@ public class MeasuredData {
 	 * @param serialNumber
 	 *            the serialNumber to set
 	 */
-	public MeasuredDataBuilder SerialNumber(int serialNumber) {
+	public MeasurementDataBuilder SerialNumber(int serialNumber) {
 	    this.serialNumber = serialNumber;
 	    return this;
 	}
 
-	public MeasuredDataBuilder referenceDraw(String referenceDraw) {
+	public MeasurementDataBuilder referenceDraw(String referenceDraw) {
 	    this.referenceDraw = referenceDraw;
 	    return this;
 	}
 
-	public MeasuredDataBuilder aliasName(String aliasName) {
+	public MeasurementDataBuilder aliasName(String aliasName) {
 	    this.aliasName = aliasName;
 	    return this;
 	}
 
-	public MeasuredDataBuilder vendor(String vendor) {
+	public MeasurementDataBuilder vendor(String vendor) {
 	    this.vendor = vendor;
 	    return this;
 	}
 
-	public MeasuredDataBuilder integralTransferFunction(
+	public MeasurementDataBuilder integralTransferFunction(
 		List<String> integralTransferFunction) {
 	    this.integralTransferFunction = integralTransferFunction;
 	    return this;
 	}
 
-	public MeasuredDataBuilder referenceRadius(String referenceRadius) {
+	public MeasurementDataBuilder referenceRadius(String referenceRadius) {
 	    this.referenceRadius = referenceRadius;
 	    return this;
 	}
 
-	public MeasuredDataBuilder description(List<String> description) {
+	public MeasurementDataBuilder description(List<String> description) {
 	    this.description = description;
 	    return this;
 	}
 
-	public MeasuredDataBuilder magneticRigidity(String magneticRigidity) {
+	public MeasurementDataBuilder magneticRigidity(String magneticRigidity) {
 	    this.magneticRigidity = magneticRigidity;
 	    return this;
 	}
 
-	public MeasuredDataBuilder magneticRigidityUnit(
+	public MeasurementDataBuilder magneticRigidityUnit(
 		String magneticRigidityUnit) {
 	    this.magneticRigidityUnit = magneticRigidityUnit;
 	    return this;
 	}
 	
-	public MeasuredDataBuilder conditionCurrent(
+	public MeasurementDataBuilder conditionCurrent(
 		String conditionCurrent) {
 	    this.conditionCurrent = conditionCurrent;
 	    return this;
 	}
 
-	public MeasuredData build() {
-	    return new MeasuredData(this.direction, this.current,
+	public MeasurementData build() {
+	    return new MeasurementData(this.direction, this.current,
 		    this.currentError, this.currentUnit, this.field,
 		    this.fieldError, this.fieldUnit, this.magneticLength,
 		    this.averageLength, this.runNumber, this.serialNumber,
@@ -246,7 +246,7 @@ public class MeasuredData {
      * @param magneticRigidity
      * @param magneticRigidityUnit
      */
-    private MeasuredData(List<String> direction, List<Double> current,
+    private MeasurementData(List<String> direction, List<Double> current,
 	    List<Double> currentError, String currentUnit, List<Double> field,
 	    List<Double> fieldError, String fieldUnit,
 	    List<Double> magneticLength, Double averageLength,
@@ -277,7 +277,7 @@ public class MeasuredData {
 	this.conditionCurrent = conditionCurrent;
     }
 
-    private MeasuredData() {
+    private MeasurementData() {
     }
 
     /**
@@ -477,7 +477,7 @@ public class MeasuredData {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	MeasuredData other = (MeasuredData) obj;
+	MeasurementData other = (MeasurementData) obj;
 	if (aliasName == null) {
 	    if (other.aliasName != null)
 		return false;
