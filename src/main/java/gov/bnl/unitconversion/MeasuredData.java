@@ -20,6 +20,15 @@ public class MeasuredData {
 	private Double averageLength;
 	private List<Double> runNumber = Collections.emptyList();
 	private int serialNumber;
+	private String referenceDraw;
+	private String aliasName;
+	private String vendor;
+	private List<String> integralTransferFunction = Collections.emptyList();
+	private String referenceRadius;
+	private List<String> description = Collections.emptyList();
+	private String magneticRigidity;
+	private String magneticRigidityUnit;
+	private String conditionCurrent;
 
 	private MeasuredDataBuilder() {
 
@@ -51,8 +60,7 @@ public class MeasuredData {
 	 * @param currentError
 	 *            the currentError to set
 	 */
-	public MeasuredDataBuilder CurrentError(
-		List<Double> currentError) {
+	public MeasuredDataBuilder CurrentError(List<Double> currentError) {
 	    this.currentError = currentError;
 	    return this;
 	}
@@ -97,8 +105,7 @@ public class MeasuredData {
 	 * @param magneticLength
 	 *            the magneticLength to set
 	 */
-	public MeasuredDataBuilder MagneticLength(
-		List<Double> magneticLength) {
+	public MeasuredDataBuilder MagneticLength(List<Double> magneticLength) {
 	    this.magneticLength = magneticLength;
 	    return this;
 	}
@@ -107,8 +114,7 @@ public class MeasuredData {
 	 * @param averageLength
 	 *            the averageLength to set
 	 */
-	public MeasuredDataBuilder averageLength(
-		Double averageLength) {
+	public MeasuredDataBuilder averageLength(Double averageLength) {
 	    this.averageLength = averageLength;
 	    return this;
 	}
@@ -131,12 +137,63 @@ public class MeasuredData {
 	    return this;
 	}
 
+	public MeasuredDataBuilder referenceDraw(String referenceDraw) {
+	    this.referenceDraw = referenceDraw;
+	    return this;
+	}
+
+	public MeasuredDataBuilder aliasName(String aliasName) {
+	    this.aliasName = aliasName;
+	    return this;
+	}
+
+	public MeasuredDataBuilder vendor(String vendor) {
+	    this.vendor = vendor;
+	    return this;
+	}
+
+	public MeasuredDataBuilder integralTransferFunction(
+		List<String> integralTransferFunction) {
+	    this.integralTransferFunction = integralTransferFunction;
+	    return this;
+	}
+
+	public MeasuredDataBuilder referenceRadius(String referenceRadius) {
+	    this.referenceRadius = referenceRadius;
+	    return this;
+	}
+
+	public MeasuredDataBuilder description(List<String> description) {
+	    this.description = description;
+	    return this;
+	}
+
+	public MeasuredDataBuilder magneticRigidity(String magneticRigidity) {
+	    this.magneticRigidity = magneticRigidity;
+	    return this;
+	}
+
+	public MeasuredDataBuilder magneticRigidityUnit(
+		String magneticRigidityUnit) {
+	    this.magneticRigidityUnit = magneticRigidityUnit;
+	    return this;
+	}
+	
+	public MeasuredDataBuilder conditionCurrent(
+		String conditionCurrent) {
+	    this.conditionCurrent = conditionCurrent;
+	    return this;
+	}
+
 	public MeasuredData build() {
 	    return new MeasuredData(this.direction, this.current,
 		    this.currentError, this.currentUnit, this.field,
 		    this.fieldError, this.fieldUnit, this.magneticLength,
-		    this.averageLength, this.runNumber,
-		    this.serialNumber);
+		    this.averageLength, this.runNumber, this.serialNumber,
+		    this.referenceDraw, this.vendor, this.aliasName,
+		    this.integralTransferFunction, this.referenceRadius,
+		    this.description, this.magneticRigidity,
+		    this.magneticRigidityUnit, this.conditionCurrent);
 	}
     }
 
@@ -151,13 +208,27 @@ public class MeasuredData {
     private Double averageLength;
     private List<Double> runNumber;
     private int serialNumber;
+    private String referenceDraw;
+    private String aliasName;
+    private String vendor;
+    private List<String> integralTransferFunction;
+    private String referenceRadius;
+    private List<String> description;
+    private String magneticRigidity;
+    private String magneticRigidityUnit;
+    private String conditionCurrent;
 
-    private MeasuredData() {
+    /**
+     * @return the conditionCurrent
+     */
+    public String getConditionCurrent() {
+        return conditionCurrent;
     }
 
     /**
      * @param direction
      * @param current
+     * @param currentError
      * @param currentUnit
      * @param field
      * @param fieldError
@@ -166,12 +237,24 @@ public class MeasuredData {
      * @param averageLength
      * @param runNumber
      * @param serialNumber
+     * @param referenceDraw
+     * @param aliasName
+     * @param vendor
+     * @param integralTransferFunction
+     * @param referenceRadius
+     * @param description
+     * @param magneticRigidity
+     * @param magneticRigidityUnit
      */
     private MeasuredData(List<String> direction, List<Double> current,
 	    List<Double> currentError, String currentUnit, List<Double> field,
 	    List<Double> fieldError, String fieldUnit,
 	    List<Double> magneticLength, Double averageLength,
-	    List<Double> runNumber, int serialNumber) {
+	    List<Double> runNumber, int serialNumber, String referenceDraw,
+	    String aliasName, String vendor,
+	    List<String> integralTransferFunction, String referenceRadius,
+	    List<String> description, String magneticRigidity,
+	    String magneticRigidityUnit, String conditionCurrent) {
 	this.direction = direction;
 	this.current = current;
 	this.currentError = currentError;
@@ -183,6 +266,81 @@ public class MeasuredData {
 	this.averageLength = averageLength;
 	this.runNumber = runNumber;
 	this.serialNumber = serialNumber;
+	this.referenceDraw = referenceDraw;
+	this.aliasName = aliasName;
+	this.vendor = vendor;
+	this.integralTransferFunction = integralTransferFunction;
+	this.referenceRadius = referenceRadius;
+	this.description = description;
+	this.magneticRigidity = magneticRigidity;
+	this.magneticRigidityUnit = magneticRigidityUnit;
+	this.conditionCurrent = conditionCurrent;
+    }
+
+    private MeasuredData() {
+    }
+
+    /**
+     * @return the averageLength
+     */
+    public Double getAverageLength() {
+	return averageLength;
+    }
+
+    /**
+     * @return the referenceDraw
+     */
+    public String getReferenceDraw() {
+	return referenceDraw;
+    }
+
+    /**
+     * @return the aliasName
+     */
+    public String getAliasName() {
+	return aliasName;
+    }
+
+    /**
+     * @return the vendor
+     */
+    public String getVendor() {
+	return vendor;
+    }
+
+    /**
+     * @return the integralTransferFunction
+     */
+    public List<String> getIntegralTransferFunction() {
+	return integralTransferFunction;
+    }
+
+    /**
+     * @return the referenceRadius
+     */
+    public String getReferenceRadius() {
+	return referenceRadius;
+    }
+
+    /**
+     * @return the description
+     */
+    public List<String> getDescription() {
+	return description;
+    }
+
+    /**
+     * @return the magneticRigidity
+     */
+    public String getMagneticRigidity() {
+	return magneticRigidity;
+    }
+
+    /**
+     * @return the magneticRigidityUnit
+     */
+    public String getMagneticRigidityUnit() {
+	return magneticRigidityUnit;
     }
 
     /**
@@ -234,13 +392,7 @@ public class MeasuredData {
 	return Collections.unmodifiableList(magneticLength);
     }
 
-    /**
-     * @return the averageLength
-     */
-    public Double getaverageLength() {
-	return averageLength;
-    }
-
+   
     /**
      * @return the runNumber
      */
@@ -259,7 +411,7 @@ public class MeasuredData {
      * @return the currentError
      */
     public List<Double> getCurrentError() {
-        return Collections.unmodifiableList(currentError);
+	return Collections.unmodifiableList(currentError);
     }
 
     /* (non-Javadoc)
@@ -269,15 +421,20 @@ public class MeasuredData {
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
+	result = prime * result
+		+ ((aliasName == null) ? 0 : aliasName.hashCode());
+	result = prime * result
+		+ ((averageLength == null) ? 0 : averageLength.hashCode());
 	result = prime
 		* result
-		+ ((averageLength == null) ? 0 : averageLength
-			.hashCode());
+		+ ((conditionCurrent == null) ? 0 : conditionCurrent.hashCode());
 	result = prime * result + ((current == null) ? 0 : current.hashCode());
 	result = prime * result
 		+ ((currentError == null) ? 0 : currentError.hashCode());
 	result = prime * result
 		+ ((currentUnit == null) ? 0 : currentUnit.hashCode());
+	result = prime * result
+		+ ((description == null) ? 0 : description.hashCode());
 	result = prime * result
 		+ ((direction == null) ? 0 : direction.hashCode());
 	result = prime * result + ((field == null) ? 0 : field.hashCode());
@@ -285,11 +442,27 @@ public class MeasuredData {
 		+ ((fieldError == null) ? 0 : fieldError.hashCode());
 	result = prime * result
 		+ ((fieldUnit == null) ? 0 : fieldUnit.hashCode());
+	result = prime
+		* result
+		+ ((integralTransferFunction == null) ? 0
+			: integralTransferFunction.hashCode());
 	result = prime * result
 		+ ((magneticLength == null) ? 0 : magneticLength.hashCode());
+	result = prime
+		* result
+		+ ((magneticRigidity == null) ? 0 : magneticRigidity.hashCode());
+	result = prime
+		* result
+		+ ((magneticRigidityUnit == null) ? 0 : magneticRigidityUnit
+			.hashCode());
+	result = prime * result
+		+ ((referenceDraw == null) ? 0 : referenceDraw.hashCode());
+	result = prime * result
+		+ ((referenceRadius == null) ? 0 : referenceRadius.hashCode());
 	result = prime * result
 		+ ((runNumber == null) ? 0 : runNumber.hashCode());
 	result = prime * result + serialNumber;
+	result = prime * result + ((vendor == null) ? 0 : vendor.hashCode());
 	return result;
     }
 
@@ -305,10 +478,20 @@ public class MeasuredData {
 	if (getClass() != obj.getClass())
 	    return false;
 	MeasuredData other = (MeasuredData) obj;
+	if (aliasName == null) {
+	    if (other.aliasName != null)
+		return false;
+	} else if (!aliasName.equals(other.aliasName))
+	    return false;
 	if (averageLength == null) {
 	    if (other.averageLength != null)
 		return false;
 	} else if (!averageLength.equals(other.averageLength))
+	    return false;
+	if (conditionCurrent == null) {
+	    if (other.conditionCurrent != null)
+		return false;
+	} else if (!conditionCurrent.equals(other.conditionCurrent))
 	    return false;
 	if (current == null) {
 	    if (other.current != null)
@@ -324,6 +507,11 @@ public class MeasuredData {
 	    if (other.currentUnit != null)
 		return false;
 	} else if (!currentUnit.equals(other.currentUnit))
+	    return false;
+	if (description == null) {
+	    if (other.description != null)
+		return false;
+	} else if (!description.equals(other.description))
 	    return false;
 	if (direction == null) {
 	    if (other.direction != null)
@@ -345,10 +533,36 @@ public class MeasuredData {
 		return false;
 	} else if (!fieldUnit.equals(other.fieldUnit))
 	    return false;
+	if (integralTransferFunction == null) {
+	    if (other.integralTransferFunction != null)
+		return false;
+	} else if (!integralTransferFunction
+		.equals(other.integralTransferFunction))
+	    return false;
 	if (magneticLength == null) {
 	    if (other.magneticLength != null)
 		return false;
 	} else if (!magneticLength.equals(other.magneticLength))
+	    return false;
+	if (magneticRigidity == null) {
+	    if (other.magneticRigidity != null)
+		return false;
+	} else if (!magneticRigidity.equals(other.magneticRigidity))
+	    return false;
+	if (magneticRigidityUnit == null) {
+	    if (other.magneticRigidityUnit != null)
+		return false;
+	} else if (!magneticRigidityUnit.equals(other.magneticRigidityUnit))
+	    return false;
+	if (referenceDraw == null) {
+	    if (other.referenceDraw != null)
+		return false;
+	} else if (!referenceDraw.equals(other.referenceDraw))
+	    return false;
+	if (referenceRadius == null) {
+	    if (other.referenceRadius != null)
+		return false;
+	} else if (!referenceRadius.equals(other.referenceRadius))
 	    return false;
 	if (runNumber == null) {
 	    if (other.runNumber != null)
@@ -357,8 +571,12 @@ public class MeasuredData {
 	    return false;
 	if (serialNumber != other.serialNumber)
 	    return false;
+	if (vendor == null) {
+	    if (other.vendor != null)
+		return false;
+	} else if (!vendor.equals(other.vendor))
+	    return false;
 	return true;
     }
-    
 
 }

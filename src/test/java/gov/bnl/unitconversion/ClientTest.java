@@ -165,25 +165,28 @@ public class ClientTest {
 	    Assert.assertTrue("Failed to search by system",
 		    results.contains(deviceQH2G6C23B));
 	    for (Device device : results) {
-		Assert.assertTrue("Failed to serach correctly:", device.getSystem().equalsIgnoreCase("Storage Ring"));
+		Assert.assertTrue("Failed to serach correctly:", device
+			.getSystem().equalsIgnoreCase("Storage Ring"));
 	    }
 	    // Search by componentType
 	    searchParameters.clear();
 	    searchParameters.add("cmpnt_type", "Quad Cp");
 	    results = client.findDevices(searchParameters);
 	    Assert.assertTrue("Failed to search by componentType",
-		    results.contains(deviceQH2G6C23B));	   
+		    results.contains(deviceQH2G6C23B));
 	    for (Device device : results) {
-		Assert.assertTrue("Failed to serach correctly:", device.getComponentType().equalsIgnoreCase("Quad Cp"));
+		Assert.assertTrue("Failed to serach correctly:", device
+			.getComponentType().equalsIgnoreCase("Quad Cp"));
 	    }
 	    // Search by serialNumber
 	    searchParameters.clear();
 	    searchParameters.add("serialno", String.valueOf(12));
 	    results = client.findDevices(searchParameters);
 	    Assert.assertTrue("Failed to search by serialNumber",
-		    results.contains(deviceQH2G6C23B));	    
+		    results.contains(deviceQH2G6C23B));
 	    for (Device device : results) {
-		Assert.assertTrue("Failed to serach correctly:", device.getSerialNumber() == 12);
+		Assert.assertTrue("Failed to serach correctly:",
+			device.getSerialNumber() == 12);
 	    }
 	} catch (Exception e) {
 	    Assert.fail(e.getMessage());
@@ -200,10 +203,65 @@ public class ClientTest {
 
     @Test
     public void testConversion() {
+	// {"LN-SO5": {
+	// "municonvChain": {
+	// "standard": {
+	// "algorithms": {
+	// "i2b": {
+	// "function": "-0.000423222575196*input -0.00021717376728",
+	// "resultUnit": "T",
+	// "algorithmId": 0,
+	// "initialUnit": "A",
+	// "auxInfo": 0}
+	// }, "description": "average solenoid measurement data"}},
+	// "municonv": {
+	// "standard": {
+	// "measurementData": {
+	// "direction": ["na", "na", "na", "na", "na", "na", "na", "na", "na",
+	// "na", "na", "na", "na", "na", "na", "na", "na", "na", "na", "na",
+	// "na"],
+	// "currentUnit": "A",
+	// "magneticLength": ["", "", "", "", "", "", "", "", "", "", "", "",
+	// "", "", "", "", "", "", "", "", ""],
+	// "serialNumber": 53,
+	// "current": [0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0,
+	// 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0],
+	// "field": [-0.000132, -0.001228, -0.002381, -0.003523, -0.004655,
+	// -0.005798, -0.00693, -0.00806, -0.009285, -0.010423, -0.011546,
+	// -0.012694, -0.013817, -0.014941, -0.016098, -0.017217, -0.018358,
+	// -0.019476, -0.020613, -0.021764, -0.022898],
+	// "fieldError": ["", "", "", "", "", "", "", "", "", "", "", "", "",
+	// "", "", "", "", "", "", "", ""],
+	// "currentError": ["", "", "", "", "", "", "", "", "", "", "", "", "",
+	// "", "", "", "", "", "", "", ""],
+	// "fieldUnit": "T"},
+	// "algorithms": {
+	// "i2b": {
+	// "function": "0.000228046038239*input + 0.000113748",
+	// "resultUnit": "T",
+	// "algorithmId": 0,
+	// "initialUnit": "A",
+	// "auxInfo": 0}},
+	// "description": "individual solenoid measurement data"}}}}
+	
 	ConversionClient client = new ConversionClient(
 		"http://localhost:8000/magnets");
 	try {
 	    Collection<Device> result = client.getConversionInfo("LN-SO5");
+	    Assert.assertTrue("Failed to gather conversionInfo",
+		    result.size() == 1);
+	} catch (Exception e) {
+	    Assert.fail(e.getMessage());
+	}
+
+    }
+
+    @Test
+    public void testConversion2() {
+	ConversionClient client = new ConversionClient(
+		"http://localhost:8000/magnets");
+	try {
+	    Collection<Device> result = client.getConversionInfo("QH*G6C23B");
 	    Assert.assertTrue("Failed to gather conversionInfo",
 		    result.size() == 1);
 	} catch (Exception e) {
