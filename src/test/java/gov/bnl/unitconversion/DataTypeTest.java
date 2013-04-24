@@ -268,8 +268,7 @@ public class DataTypeTest {
 	 */
 	Conversion conversion = conversionDataOfType()
 		.withmeasuredData(measurementData).withDefaultEnergy(3.0)
-		.withDesignLength(0.35)
-		.withAlgorithms(conversions).build();
+		.withDesignLength(0.35).withAlgorithms(conversions).build();
 
 	try {
 	    ObjectMapper objectMapper = new ObjectMapper();
@@ -374,10 +373,8 @@ public class DataTypeTest {
 		put("standard",
 			conversionDataOfType()
 				.withmeasuredData(magnetMeasuredData2)
-				.withDefaultEnergy(3.0)
-				.withDesignLength(0.35)
-				.withAlgorithms(conversions2)
-				.build());
+				.withDefaultEnergy(3.0).withDesignLength(0.35)
+				.withAlgorithms(conversions2).build());
 	    }
 	});
 
@@ -433,7 +430,7 @@ public class DataTypeTest {
 
 	Map<String, Map<String, Conversion>> complexMap = new HashMap<String, Map<String, Conversion>>();
 
-	final Map<String, ConversionAlgorithm> conversionFunctionsCmplx1 = new HashMap<>();
+	final Map<String, ConversionAlgorithm> conversionFunctionsCmplx1 = new HashMap<String, ConversionAlgorithm>();
 	conversionFunctionsCmplx1
 		.put("i2b",
 			conversionAlgorithm(
@@ -470,8 +467,7 @@ public class DataTypeTest {
 				.withmeasuredData(
 					magnetMeasurements().FieldUnit("T")
 						.CurrentUnit("A").build())
-				.withAlgorithms(
-					conversionFunctionsCmplx1)
+				.withAlgorithms(conversionFunctionsCmplx1)
 				.description(
 					"Dipole field component for a combined function magnet")
 				.build());
@@ -480,8 +476,7 @@ public class DataTypeTest {
 				.withmeasuredData(
 					magnetMeasurements().FieldUnit("T/m")
 						.CurrentUnit("A").build())
-				.withAlgorithms(
-					conversionFunctionsCmplx2)
+				.withAlgorithms(conversionFunctionsCmplx2)
 				.description(
 					"Quadrupole field component for a combined function magnet")
 				.build());
@@ -490,8 +485,7 @@ public class DataTypeTest {
 				.withmeasuredData(
 					magnetMeasurements().FieldUnit("T/m^2")
 						.CurrentUnit("A").build())
-				.withAlgorithms(
-					conversionFunctionsCmplx3)
+				.withAlgorithms(conversionFunctionsCmplx3)
 				.description(
 					"Sextupole field component for a combined function magnet")
 				.build());
@@ -501,8 +495,7 @@ public class DataTypeTest {
 					magnetMeasurements().FieldUnit("T")
 						.CurrentUnit("A")
 						.SerialNumber(24).build())
-				.withAlgorithms(
-					conversionFunctionsStandard)
+				.withAlgorithms(conversionFunctionsStandard)
 				.withDesignLength(1.3).build());
 	    }
 	});

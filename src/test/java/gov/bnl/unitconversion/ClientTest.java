@@ -202,7 +202,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testConversion() {
+    public void testConversionInfo() {
 	// {"LN-SO5": {
 	// "municonvChain": {
 	// "standard": {
@@ -243,7 +243,7 @@ public class ClientTest {
 	// "initialUnit": "A",
 	// "auxInfo": 0}},
 	// "description": "individual solenoid measurement data"}}}}
-	
+
 	ConversionClient client = new ConversionClient(
 		"http://localhost:8000/magnets");
 	try {
@@ -257,7 +257,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testConversion2() {
+    public void testConversionInfo2() {
 	ConversionClient client = new ConversionClient(
 		"http://localhost:8000/magnets");
 	try {
@@ -267,7 +267,35 @@ public class ClientTest {
 	} catch (Exception e) {
 	    Assert.fail(e.getMessage());
 	}
-
     }
 
+    @Test
+    public void testConversion() {
+	ConversionClient client = new ConversionClient(
+		"http://localhost:8000/magnets");
+	try {
+	    Collection<Device> result = client.getConversionResult("QH2G6C23B",
+		    "i", "k", "32");
+	    // Expected Result
+	    // {"QH2G6C23B": {"municonv": {"standard": {"conversionResult":
+	    // {"message": "successfully convert magnetic field to K value.",
+	    // "value": 0.24199924897221203, "unit": "1/m2"}}}}}
+	    Assert.assertTrue(
+		    "Failed, there should be a single conversion result",
+		    result.size() == 1);
+	    ConversionResult conversionResult = new ConversionResult(
+		    "successfully convert magnetic field to K value.",
+		    0.24199924897221203, "1/m2");
+	    for (Device device : result) {
+		Assert.assertEquals(
+			"Failed to get the correct converted value",
+			conversionResult,
+			(device.getConversionInfo().get("municonv")
+				.get("standard")).getConversionResult());
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    Assert.fail(e.getMessage());
+	}
+    }
 }

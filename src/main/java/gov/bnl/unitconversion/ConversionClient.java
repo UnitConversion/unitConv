@@ -105,19 +105,75 @@ public class ConversionClient {
 
     public Collection<Device> getConversionInfo(
 	    MultivaluedMap<String, String> searchParameters) throws IOException {
+	Collection<Device> result = Collections.emptyList();
 	ClientResponse clientResponse = service.path("conversion")
 		.queryParams(searchParameters)
 		.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 	if (clientResponse.getStatus() < 300) {
 	    String devices = clientResponse.getEntity(String.class);
-	    System.out.println(devices);
 	    ObjectMapper mapper = new ObjectMapper();
 
 	    JsonNode tree = mapper.readTree(devices);
-	    Collection<Device> result = new ArrayList<Device>();
+	    result = new ArrayList<Device>();
 	    Map<String, Map<String, Conversion>> parsedComplexMap = Collections
 		    .emptyMap();
-	    
+
+	    Iterator<Entry<String, JsonNode>> it = tree.getFields();
+	    for (Entry<String, JsonNode> field; it.hasNext();) {
+		field = it.next();
+		DeviceBuilder d = DeviceBuilder.device(field.getKey());
+		parsedComplexMap = mapper
+			.readValue(
+				field.getValue(),
+				new TypeReference<HashMap<String, HashMap<String, Conversion>>>() {
+				});
+		d.conversionInfo(parsedComplexMap);
+		result.add(d.build());
+	    }
+	    return result;
+	} else {
+	    throw new IOException("Failed with error code : "
+		    + clientResponse.getStatus());
+	}
+    }
+
+    /**
+     * 
+     * id','name','from','to','value','unit','energy','mcdata','cache','
+     * direction'
+     * 
+     * @param initialValue
+     * @param initialunit
+     * @param finalUnit
+     * @return
+     * @throws IOException
+     */
+    public Collection<Device> getConversionResult(String name, String from,
+	    String to, String value) throws IOException {
+	MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
+	queryParams.add("name", name);
+	queryParams.add("from", from);
+	queryParams.add("to", to);
+	queryParams.add("value", value);
+	return getConversionResult(queryParams);
+    }
+
+    public Collection<Device> getConversionResult(
+	    MultivaluedMap<String, String> conversionParameters)
+	    throws IOException {
+	Collection<Device> result = Collections.emptyList();
+	ClientResponse clientResponse = service.path("conversion")
+		.queryParams(conversionParameters)
+		.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+	if (clientResponse.getStatus() < 300) {
+	    result = new ArrayList<Device>();
+	    String devices = clientResponse.getEntity(String.class);
+	    ObjectMapper mapper = new ObjectMapper();
+
+	    JsonNode tree = mapper.readTree(devices);
+	    Map<String, Map<String, Conversion>> parsedComplexMap = Collections
+		    .emptyMap();
+
 	    Iterator<Entry<String, JsonNode>> it = tree.getFields();
 	    for (Entry<String, JsonNode> field; it.hasNext();) {
 		field = it.next();

@@ -189,6 +189,13 @@ public class Device {
 	return vendor;
     }
 
+    /**
+     * @return the conversionInfo
+     */
+    public Map<String, Map<String, Conversion>> getConversionInfo() {
+        return conversionInfo;
+    }
+
     /*
      * (non-Javadoc)
      * 
